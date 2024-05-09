@@ -37,4 +37,4 @@ Revise card deck page - On the revise deck page, users will be able view the que
 
 •	Fingerprint login to increase security. (use biometric sensor)
 
-•	Export and import page for back up of the 
+•	Export and import page for back up of the app
