@@ -9,10 +9,9 @@ This app is to enable students to be able to easily create flashcards and be abl
 The category of the app is Educational
 
 # Stage 1 Task
-(All pages will use responsive layout to fit the size of the screen)
-
 **(All pages use responsive layout to scale to the correct size of the phone)**
-Feature 1- logging in (User Identity from core android developer guide):
+
+Feature 1- logging in (User Identity from core android developer guide):\n
 Android developer guide for User identity - https://developer.android.com/training/sign-in
 •	Create a login page that allow users to enter their username and password
 •	Move to an authentication page where the user needs to key the OTP shown in a toaster
