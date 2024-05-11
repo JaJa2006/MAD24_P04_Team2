@@ -11,20 +11,48 @@ The category of the app is Educational
 # Stage 1 Task
 (All pages will use responsive layout to fit the size of the screen)
 
-Login page – allow users to login to their account
+**(All pages use responsive layout to scale to the correct size of the phone)**
+Feature 1- logging in (User Identity from core android developer guide):
+Android developer guide for User identity - https://developer.android.com/training/sign-in
+•	Create a login page that allow users to enter their username and password
+•	Move to an authentication page where the user needs to key the OTP shown in a toaster
+![alt text](Feature1.png)
+ 
+Feature 2 – Flashcards (Persistent memory + recycler view)
+•	There will be a button on the main screen go to “flash card decks page”
+•	In the “flash card decks page” user can either review deck or create new deck
+•	When user create new deck, they must first enter a name
+•	After entering a name, they will be directed to make new cards page where they can enter words in the front and back of the card. 
+•	After making the card they can either make a new card or finish to stop making cards.
+•	If the user clicks to the review deck, they would be able to view the front of the deck and there will be a view answer button.
+•	They can then click if they got the question right and go to the next card.
+![alt text](Feature2.png)
+ 
+Feature 3 – Memo (Persistent memory + Multimedia)
+•	In the main page, there will be a button to go to the memo page.
+•	The memo page is for short notes for the user know
+•	They can add a memo or view the memo
+•	In the add memo, user can add text, video, image, and audio.
+•	The user will be limited to a certain number of characters or one video or one image or one audio
+![alt text](Feature3.png)
+ 
+Feature 4 - Study sessions (alarm from core android developer guide) 
+Android developer guide for alarm - https://developer.android.com/develop/background-work/services/alarms 
+•	In the main page, there will be a button to set study sessions.
+•	In the study sessions page, users will be able to set an alarm that will go off in 1-60 mins.
+•	This alarm will still work in the background if the user is still in the app.
+ ![alt text](Feature4.png)
 
-Main Deck page – This page contains all the decks of cards; users can select the deck they want to edit or change or make a new deck. 
-•	(use recycler view, users will be able to scroll to the deck they want)
 
-Create deck page – in this page the users can set the title for the decks. Then it would go to the create card Page.
+Feature 5 – Notifications (Services from core android developer guide)
+Android developer guide for service -  https://developer.android.com/develop/background-work/services
+•	There will be a settings page to enable the notification
+•	The user will be able to set the time interval of the notification
+•	The notification will then play in the app after the user did not use the app for the specified time interval.
+•	This will still work if the app is closed.
+ ![alt text](Feature5.png)
 
-Add Card Page – in this page, the user will be able to create the cards, entering the questions and the answer. There would be a button to exit after all the cards are finished. 
-•	(Use persistent memory to save the data of the cards.) 
-•	(Also use Multimedia as users will be able to add image, video or audio for the question and answer.)
 
-View Deck Page - when users click on a deck that has been made, they will go to a new activity and be able to change deck name, add cards, revise cards and delete cards. (change deck name and delete cards will be on the same activity)
-
-Revise card deck page - On the revise deck page, users will be able view the question and there will be a show answer button. On clicking this button, the activity would show the answer and a correct or wrong button will appear for the user to click if they got the question right. The user will also be able to switch to the previous or next card.
 
 # Stage 2 Task
 •	Speech to text for answering questions (Using API from google)
