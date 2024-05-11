@@ -1,9 +1,9 @@
 # MAD24_P04_Team2
 # Introduction
-The goal of the project is to create a flashcard app that would allow users to add text, images, video, and sound to the app to be able to make a flashcard. The flash card would have a question and an answer section that the user can fill up. After making the flashcard, the users would be able to review them. The users would also be able to group th flashcard together to organise them.
+The goal of the project is to create a flashcard app that would allow users to add questions and answers to test themselves. The app also consists of a memo page to allow users to write quick reminders or notes to revise before testing themselves. In the memo they would be able to add text, image, video, and audio. There would also be other features to ensure a smooth study period, such as a study session timer and notifications to remind the user to study. Addtionally, there will be a login feature to ensure security of the app.
 
 # Motivation/Objective
-This app is to enable students to be able to easily create flashcards and be able to rewiew them practicing their different subject. The app is also trying to reduce the amount of paper being used when students make flashcard and allow the students to take them wherever they go as it is all in their phones.
+This app is to enable students to be able to easily create flashcards and be able to rewiew them practicing their different subject. The app is also trying to reduce the amount of paper being used when students make flashcard and allow the students to take them wherever they go as it is all in their phones. This app is also trying to allow the users to create healthy study habits and not get distracted during their study.
 
 # App category 
 The category of the app is Educational
@@ -55,13 +55,8 @@ Android developer guide for service -  https://developer.android.com/develop/bac
 
 # Stage 2 Task
 •	Speech to text for answering questions (Using API from google)<br>
-
 •	Allow user to share decks with others globally and allow for rating (using firebase cloud messaging)<br>
-
 •	Analytical report on the number of cards answered correctly and cards reviewed and daily login.<br>
-
 •	Setting for the decks to change the looks of it such as colours. (can use recycler views in a recycler view to get this.)<br>
-
 •	Fingerprint login to increase security. (use biometric sensor)<br>
-
 •	Export and import page for back up of the app<br>
