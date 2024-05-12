@@ -61,12 +61,6 @@ Android developer guide for service -  https://developer.android.com/develop/bac
 
 
 # Stage 2 Task
-•	Speech to text for answering questions (Using API from google) (Ethan)<br>
-•	Allow user to share decks with others globally and allow for rating (using firebase cloud messaging) (Jaden)<br>
-•	Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
-•	Fingerprint login to increase security. (use biometric sensor) (Joshua)<br>
-•	Export and import page for back up of the app (Brian)<br>
-
 Feature 1 - Speech to text for answering questions (Using API from google) (Ethan)<br>
 •	There will be a button while reviewing the flashcard to get the users input.<br>
 •	The speech would be processed into text using google's api<br>
