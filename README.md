@@ -49,7 +49,7 @@ Android developer guide for service -  https://developer.android.com/develop/bac
 •	The user will be able to set the time interval of the notification<br>
 •	The notification will then play in the app after the user did not use the app for the specified time interval.<br>
 •	This will still work if the app is closed.<br>
- ![alt text](Feature5.png)
+![alt text](Feature5.png)
 
 
 
