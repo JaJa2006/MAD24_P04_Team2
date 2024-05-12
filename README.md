@@ -1,5 +1,6 @@
 # MAD24_P04_Team2
-Team Members:<br>
+
+# Team Members:
 Jaden<br>
 Joshua<br>
 Rumaisa<br>
@@ -65,3 +66,26 @@ Android developer guide for service -  https://developer.android.com/develop/bac
 •	Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
 •	Fingerprint login to increase security. (use biometric sensor) (Joshua)<br>
 •	Export and import page for back up of the app (Brian)<br>
+
+Feature 1 - Speech to text for answering questions (Using API from google) (Ethan)<br>
+•	There will be a button while reviewing the flashcard to get the users input.<br>
+•	The speech would be processed into text using google's api<br>
+•	The text would then be compared to check if it is similar to the answer <br>
+
+Feature 2 - Allow user to share decks with others globally and allow for rating (using firebase cloud messaging(Jaden)<br>
+•	There will be a button to share the flashcard deck gloabally<br>
+•	There will be a page to view decks shared gloabally<br>
+•	In that page users will be able to review the deck and rate them.<br>
+
+Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
+•	There will be a new button on the deck to manage the deck<br>
+•	When the user clicks that button, they will be able to manage the deck deleting cards and editing the cards.<br>
+
+Feature 4 - Fingerprint login to increase security. (use biometric sensor) (Joshua)<br>
+•	In the log in page the user will be able to use their biometrics to log in to their app<br>
+•	The app will have a memory of what biometric there are and will make sure it is the right one<br>
+
+Feature 5 - Export and import page for back up of the app (Brian)<br>
+•	There will be a button for the user to export to a txt file<br>
+•	There will also be another button for the user to import the txt file only if the file is having the same format<br>
+•	On importing the file, the app will create that deck on the app for the user.<br>
