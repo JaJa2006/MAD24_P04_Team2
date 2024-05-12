@@ -56,7 +56,6 @@ Android developer guide for service -  https://developer.android.com/develop/bac
 # Stage 2 Task
 •	Speech to text for answering questions (Using API from google)<br>
 •	Allow user to share decks with others globally and allow for rating (using firebase cloud messaging)<br>
-•	Analytical report on the number of cards answered correctly and cards reviewed and daily login.<br>
-•	Setting for the decks to change the looks of it such as colours. (can use recycler views in a recycler view to get this.)<br>
+•	Allow users to have a smooth interface for deleting cards. (using recycler views in a fragment.)<br>
 •	Fingerprint login to increase security. (use biometric sensor)<br>
 •	Export and import page for back up of the app<br>
