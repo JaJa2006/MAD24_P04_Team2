@@ -66,7 +66,8 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 •	The speech would be processed into text using google's api<br>
 •	The text would then be compared to check if it is similar to the answer <br>
 
-Feature 2 - Allow user to share decks with others globally and allow for rating (using firebase cloud messaging(Jaden)<br>
+Feature 2 - Allow user to share decks with others globally and allow for rating (using firebase cloud messaging) 
+(Jaden)<br>
 •	There will be a button to share the flashcard deck gloabally<br>
 •	There will be a page to view decks shared gloabally<br>
 •	In that page users will be able to review the deck and rate them.<br>
