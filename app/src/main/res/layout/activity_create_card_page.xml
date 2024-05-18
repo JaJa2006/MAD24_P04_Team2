@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Create_Card_Page">
+
+    <TextView
+        android:id="@+id/tvCreateCardBanner"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCreateCardBannerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Create Card"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Card Name:"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toStartOf="@+id/etCardName"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateCardBanner" />
+
+    <EditText
+        android:id="@+id/etCardName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Name"
+        android:text=""
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/tvCardName"
+        app:layout_constraintTop_toBottomOf="@+id/tvCreateCardBanner" />
+
+    <TextView
+        android:id="@+id/tvCardFront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Card Front:"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toStartOf="@+id/etCardFront"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCardName" />
+
+    <EditText
+        android:id="@+id/etCardFront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Front"
+        android:text=""
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/tvCardFront"
+        app:layout_constraintTop_toBottomOf="@+id/tvCardName" />
+
+    <TextView
+        android:id="@+id/tvCardBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Card Back:"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toStartOf="@+id/etCardBack"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCardFront" />
+
+    <EditText
+        android:id="@+id/etCardBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Back"
+        android:text=""
+        android:textSize="30sp"
+        app:layout_constraintStart_toEndOf="@+id/tvCardBack"
+        app:layout_constraintTop_toBottomOf="@+id/tvCardFront" />
+
+    <Button
+        android:id="@+id/btnCreateCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnFinish"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnCreateCard" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
