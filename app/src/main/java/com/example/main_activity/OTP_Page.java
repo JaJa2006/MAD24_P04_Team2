@@ -84,7 +84,8 @@ public class OTP_Page extends AppCompatActivity {
 
                         // If parsing succeeds, it's a valid integer
                         if(otpnum == randomNumber){
-
+                            Intent MainActivity = new Intent(OTP_Page.this,MainActivity.class);
+                            startActivity(MainActivity);
                         }
                         else{
                             Toast.makeText(OTP_Page.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
