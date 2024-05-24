@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 public class Create_Card_Page extends AppCompatActivity {
-
     ArrayList<Flashcard> flashcards = new ArrayList<Flashcard>();
 
     @Override
