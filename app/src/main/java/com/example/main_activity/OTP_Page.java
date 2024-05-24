@@ -1,6 +1,7 @@
 package com.example.main_activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -53,11 +54,16 @@ public class OTP_Page extends AppCompatActivity {
         };
         token.addTextChangedListener(textWatcher);
 
+        Button auth = findViewById(R.id.authenticate);
+        if (randomNumber == null) {
+            auth.setBackgroundColor(Color.parseColor("#FFF44336")); // Set color using a hex string
+        }
         Button otp = findViewById(R.id.otpnew);
         otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                auth.setBackgroundColor(Color.parseColor("#A966CC")); // Set color using a hex string
                 Random random = new Random();
                 //picks random number between 0 and 90000, excluding 90000
                 //by adding 10000 the number will always be 5 digits
@@ -67,7 +73,6 @@ public class OTP_Page extends AppCompatActivity {
             }
         });
 
-        Button auth = findViewById(R.id.authenticate);
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +80,7 @@ public class OTP_Page extends AppCompatActivity {
                 String tokentyped = tokenn.getText().toString();
 
                 if(randomNumber == null){
+
                     Toast.makeText(OTP_Page.this,"Generate OTP first!",Toast.LENGTH_SHORT).show();
                 }
                 else{
