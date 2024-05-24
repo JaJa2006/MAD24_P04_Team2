@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/tvDeck"
-        android:background="@android:color/darker_gray"
-        android:gravity="center"
-        android:textSize="20dp"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_weight="1"
-        android:text="TextViews" />
-</LinearLayout>
+        android:background="@drawable/round_corner"
+        android:gravity="center"
+        android:text="TextViews"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tvDelete"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:background="@drawable/delete_deck"
+        app:layout_constraintEnd_toEndOf="@+id/tvDeck"
+        app:layout_constraintTop_toTopOf="@+id/tvDeck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,13 +1,11 @@
 package com.example.main_activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -32,6 +30,12 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
                 public void onClick(View v) {
                     Intent createDeck = new Intent(v.getContext(),Create_Deck_Page.class);
                     v.getContext().startActivity(createDeck);
+                }
+            });
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
 
