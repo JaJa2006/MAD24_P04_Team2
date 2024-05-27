@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996661835983",
+    "project_id": "flash-card-app-4d6b9",
+    "storage_bucket": "flash-card-app-4d6b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996661835983:android:2692b761d329f9d04ddfba",
+        "android_client_info": {
+          "package_name": "com.example.main_activity"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApzGxXdr_W2OUgbt9CWMtAVC3w8NgTuGg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
