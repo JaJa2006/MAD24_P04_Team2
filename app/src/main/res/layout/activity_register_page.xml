@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Username"
+        android:id="@+id/Usernamereg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username:"
@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/Password"
+        android:id="@+id/Passwordreg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Password:"
@@ -53,8 +53,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <TextView
+        android:id="@+id/Emailreg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:"
+        android:textSize="30dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="250dp"
+        android:layout_marginLeft="20dp"
+        android:background="@android:color/holo_purple"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="280dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <EditText
-        android:id="@+id/userinput"
+        android:id="@+id/userinputreg"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
@@ -65,7 +82,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/passinput"
+        android:id="@+id/passinputreg"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
@@ -75,11 +92,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+    <EditText
+        android:id="@+id/emailinputreg"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="258dp"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <Button
-        android:id="@+id/loginb"
+        android:id="@+id/createbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="CREATE"
         android:textSize="30dp"
         android:paddingRight="30dp"
         android:paddingBottom="20dp"
