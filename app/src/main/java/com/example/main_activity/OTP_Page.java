@@ -32,6 +32,7 @@ public class OTP_Page extends AppCompatActivity {
             return insets;
         });
 
+        //ensures only 1 line of string
         EditText token = findViewById(R.id.tokeninput);
         final int maxLines = token.getMaxLines();
         TextWatcher textWatcher = new TextWatcher() {
