@@ -91,7 +91,7 @@ public class Login_Page extends AppCompatActivity {
                     //checks if password is empty
                     else if (pwstring == null || pwstring.isEmpty()) {
                         Toast.makeText(Login_Page.this, "Password is empty", Toast.LENGTH_SHORT).show();
-                    } else {
+                    }/* else {
                         //code that takes the list of usernames currently in the database
 
                         if()
@@ -121,7 +121,7 @@ public class Login_Page extends AppCompatActivity {
                             Toast.makeText(Login_Page.this, "Cannot find username", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
+                    }*/
                 }
             }
         });

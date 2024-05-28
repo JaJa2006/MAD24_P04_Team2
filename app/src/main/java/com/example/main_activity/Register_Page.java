@@ -1,5 +1,7 @@
 package com.example.main_activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -66,11 +68,12 @@ public class Register_Page extends AppCompatActivity {
             }
         };
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         username.addTextChangedListener(textWatcher);
         password.addTextChangedListener(textWatcher);
         emaila.addTextChangedListener(textWatcher);
 
-        Button btnreg = findViewById(R.id.regbtn);
+        Button btnreg = findViewById(R.id.createbtn);
         btnreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,26 +105,14 @@ public class Register_Page extends AppCompatActivity {
                         else if(emailstring == null || emailstring.isEmpty()){
                             Toast.makeText(Register_Page.this, "Email is empty", Toast.LENGTH_SHORT).show();
                         }
-                        else {
+                        /*else {
                             //verifies if email address is in correct format
                             //if it is not correct format it will enter if statement
                             if(!Patterns.EMAIL_ADDRESS.matcher(emailstring).matches()){
                                 Toast.makeText(Register_Page.this, "Email is not valid", Toast.LENGTH_SHORT).show();
                             }
-                            else if()
-                            {
-                                //code that takes the list of emails currently in the database
-
-                                if() {
-                                    //code that checks if email address does not exist in database
-                                    //email address to be used as identifier key
-
-
-                                }
-                                else{
-                                    Toast.makeText(Register_Page.this, "Email is taken", Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                            // email can be reusable it does not have to be unique
+                            //username to be used as primary key
                             else if()
                             {
                                 // code that takes the list of usernames currently in the database
@@ -137,13 +128,34 @@ public class Register_Page extends AppCompatActivity {
                                 }
                             }
                             else {
-                                // Define an Intent to navigate to the NextActivity
-                                Intent intent = new Intent(Register_Page.this, Login_Page.class);
+                                builder.setMessage("Account created");
+                                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Define an Intent to navigate to the NextActivity
+                                        Intent intent = new Intent(Register_Page.this, Login_Page.class);
 
-                                // Start the NextActivity
-                                startActivity(intent);
+                                        // Start the NextActivity
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                //go back to login page even if click outside of dialog box
+                                builder.setCancelable(true);
+                                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                        // Define an Intent to navigate to the NextActivity
+                                        Intent intent = new Intent(Register_Page.this, Login_Page.class);
+
+                                        // Start the NextActivity
+                                        startActivity(intent);
+                                    }
+                                });
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
                             }
-                        }
+                        }*/
 
                     }
                 }
