@@ -28,7 +28,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
-        android:background="@android:color/holo_purple"
+        android:background="@color/lightblue"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -45,7 +45,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="150dp"
         android:layout_marginLeft="20dp"
-        android:background="@android:color/holo_purple"
+        android:background="@color/lightblue"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -62,7 +62,7 @@
         android:textColor="@color/white"
         android:layout_marginTop="250dp"
         android:layout_marginLeft="20dp"
-        android:background="@android:color/holo_purple"
+        android:background="@color/lightblue"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:paddingLeft="5dp"
@@ -117,5 +117,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/backb"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

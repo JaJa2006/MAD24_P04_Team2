@@ -1,5 +1,7 @@
 package com.example.main_activity;
 
+import java.util.ArrayList;
+
 public class User {
     public String email;
     public String name;
