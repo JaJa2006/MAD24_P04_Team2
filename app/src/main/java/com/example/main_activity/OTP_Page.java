@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,6 +21,7 @@ import java.util.Random;
 
 public class OTP_Page extends AppCompatActivity {
 
+    //define variable randomNumber
     private Integer randomNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class OTP_Page extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //get current lines in edittext field
                 int lines = token.getLineCount();
                 if (lines > maxLines) {
                     // Remove the last character to prevent further input
@@ -53,9 +56,12 @@ public class OTP_Page extends AppCompatActivity {
                 }
             }
         };
+        //implement textwatcher
         token.addTextChangedListener(textWatcher);
 
+        //assign authenticate xml button to auth variable
         Button auth = findViewById(R.id.authenticate);
+        //set the button color to diff color when havent generate otp
         if (randomNumber == null) {
             auth.setBackgroundColor(Color.parseColor("#FFF44336")); // Set color using a hex string
         }
@@ -64,6 +70,8 @@ public class OTP_Page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //after otp has been generated
+                //color of authenticate button will change
                 auth.setBackgroundColor(Color.parseColor("#A966CC")); // Set color using a hex string
                 Random random = new Random();
                 //picks random number between 0 and 90000, excluding 90000
@@ -77,11 +85,12 @@ public class OTP_Page extends AppCompatActivity {
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //get the string typed into edittext field
                 EditText tokenn = findViewById(R.id.tokeninput);
                 String tokentyped = tokenn.getText().toString();
 
                 if(randomNumber == null){
-
+                    //if otp not generated yet display toast
                     Toast.makeText(OTP_Page.this,"Generate OTP first!",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -95,6 +104,7 @@ public class OTP_Page extends AppCompatActivity {
                             startActivity(MainActivity);
                         }
                         else{
+                            //display if input is not the same as the otp given
                             Toast.makeText(OTP_Page.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
                         }
 
@@ -103,6 +113,16 @@ public class OTP_Page extends AppCompatActivity {
                         Toast.makeText(OTP_Page.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        });
+
+        //back button go back to login page
+        ImageView backbu = findViewById(R.id.backb1);
+        backbu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inten111 = new Intent(OTP_Page.this, Login_Page.class);
+                startActivity(inten111);
             }
         });
     }
