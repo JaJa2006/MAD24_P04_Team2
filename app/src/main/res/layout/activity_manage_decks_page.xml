@@ -35,5 +35,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvBanner" />
 
+    <TextView
+        android:id="@+id/tvAddCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:background="@drawable/add_button"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

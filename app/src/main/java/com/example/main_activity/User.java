@@ -1,5 +1,4 @@
 package com.example.main_activity;
-
 public class User {
     public String email;
     public String name;
