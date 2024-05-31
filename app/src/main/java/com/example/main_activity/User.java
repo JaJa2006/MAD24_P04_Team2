@@ -7,7 +7,7 @@ public class User {
     public String name;
     public String password;
     public void setName(String username){this.name = username;}
-    public void setPassword(String password){this.name = password;}
+    public void setPassword(String password){this.password = password;}
     public void setEmail(String email){this.email = email;}
     public String getName(){return name;}
     public String getPassword(){return password;}
