@@ -140,33 +140,8 @@ public class Register_Page extends AppCompatActivity {
                             Toast.makeText(Register_Page.this, "Email is empty", Toast.LENGTH_SHORT).show();
                         }
                         else {
-
-                            DatabaseReference usercheck = FirebaseDatabase.getInstance().getReference().child("Users");
-
-                            //gets a list of the usernames currently in the database
-                            ArrayList<String> usernamelist = new ArrayList<>();
-                            usercheck.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                    // Iterate through each child node under the "Users" node
-                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-
-                                        // Get the username from the snapshot
-                                        String userName = userSnapshot.child("username").getValue(String.class);
-
-                                        // Add the username to the list
-                                        usernamelist.add(userName);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    //create toast if the read operation is cancelled or fails
-                                    Toast.makeText(Register_Page.this, "Failed to fetch data. Please try again later.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
+                            DatabaseHandler db = new DatabaseHandler(Register_Page.this);
+                            User theusertaken = db.checkuser(userstring);
 
                             //verifies if email address is in correct format
                             //if it is not correct format it will enter if statement
@@ -175,28 +150,15 @@ public class Register_Page extends AppCompatActivity {
                             }
                             // email can be reusable it does not have to be unique
                             //username to be used as primary key
-                            else if(usernamelist.contains(userstring))
+                            else if(theusertaken != null)
                             {
                                 //create toast if username in database
                                 Toast.makeText(Register_Page.this, "Username is taken", Toast.LENGTH_SHORT).show();
                             }
                             else {
                                 //create account if username available
-                                //get a firebase reference
-                                DatabaseReference fireref = FirebaseDatabase.getInstance().getReference().child("Users");
-                                User newaccount = new User(userstring,pwstring,emailstring);
-
-                                // Convert the User object to a Map
-                                //to put inside the database
-                                Map<String, Object> userData = new HashMap<>();
-
-                                //setting each part to the user node
-                                userData.put("username", newaccount.getName());
-                                userData.put("email", newaccount.getEmail());
-                                userData.put("password", newaccount.getPassword());
-
-                                //push the changes to the database
-                                fireref.push().setValue(userData);
+                                User usertoadd = new User(userstring,pwstring,emailstring);
+                                db.addUser(usertoadd);
 
                                 builder.setMessage("Account created");
 

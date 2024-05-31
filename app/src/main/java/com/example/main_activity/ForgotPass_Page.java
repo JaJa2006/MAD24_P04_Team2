@@ -1,5 +1,7 @@
 package com.example.main_activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,9 +31,6 @@ import java.util.ArrayList;
 
 public class ForgotPass_Page extends AppCompatActivity {
 
-    private String firebaseemail;
-    private String firebaseusername;
-    private String firebasepassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +44,7 @@ public class ForgotPass_Page extends AppCompatActivity {
 
         //assign the edittext fields to variables
         EditText usernamez = findViewById(R.id.userinput);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         //get the max lines that was specified in the xml code
         //max lines is set at 1 line
@@ -89,83 +89,48 @@ public class ForgotPass_Page extends AppCompatActivity {
                 String userstringz = usernamez.getText().toString();
                 if((userstringz.isEmpty()) || userstringz == null){
                     //display toast if username is empty
-                    Toast.makeText(ForgotPass_Page.this,"Username field is empty", Toast.LENGTH_SHORT);
+                    Toast.makeText(ForgotPass_Page.this,"Username field is empty", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     //check if username is in database
-                    DatabaseReference usercheckzz = FirebaseDatabase.getInstance().getReference().child("Users");
+                    DatabaseHandler db = new DatabaseHandler(ForgotPass_Page.this);
+                    User useruseruser = db.checkuser(userstringz);
 
-                    //gets a list of the usernames currently in the database
-                    ArrayList<String> usernamelistzz = new ArrayList<>();
-                    usercheckzz.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                            // Iterate through each child node under the "Users" node
-                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-
-                                // Get the username from the snapshot
-                                String userName = userSnapshot.child("username").getValue(String.class);
-
-                                // Add the username to the list
-                                usernamelistzz.add(userName);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            //create toast if the read operation is cancelled or fails
-                            Toast.makeText(ForgotPass_Page.this, "Failed to fetch data. Please try again later.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    if(!usernamelistzz.contains(userstringz)){
+                    if(useruseruser == null){
                         //if username not in database display toast
-                        Toast.makeText(ForgotPass_Page.this,"Username does not exist", Toast.LENGTH_SHORT);
+                        Toast.makeText(ForgotPass_Page.this,"Username does not exist", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        //if username is in database email his password to him
-                        DatabaseReference checkpassz = FirebaseDatabase.getInstance().getReference().child("Users");
+                        builder.setMessage("Password is "+useruseruser.getPassword());
 
-                        // Create a query to search for the user with the specified username
-                        Query querytofindz = checkpassz.orderByChild("username").equalTo(userstringz);
-
-                        querytofindz.addListenerForSingleValueEvent(new ValueEventListener() {
+                        //when ok button clicked it will bring back to the login page
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                // Iterate through the results to get matching username
-                                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                    // Get the user data
-                                    firebaseusername = userSnapshot.child("username").getValue(String.class);
-                                    firebaseemail = userSnapshot.child("email").getValue(String.class);
-                                    firebasepassword = userSnapshot.child("password").getValue(String.class);
-                                }
-                            }
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Define an Intent to navigate to the NextActivity
+                                Intent intent = new Intent(ForgotPass_Page.this, Login_Page.class);
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                //create toast if the read operation is cancelled or fails
-                                Toast.makeText(ForgotPass_Page.this, "Failed to fetch data. Please try again later.", Toast.LENGTH_SHORT).show();
+                                // Start the NextActivity
+                                startActivity(intent);
                             }
                         });
 
-                        Intent intent4 = new Intent(Intent.ACTION_SENDTO);
+                        //go back to login page even if click outside of dialog box
+                        builder.setCancelable(true);
+                        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                            @Override
+                            public void onCancel(DialogInterface dialog) {
+                                // Define an Intent to navigate to the NextActivity
+                                Intent intent = new Intent(ForgotPass_Page.this, Login_Page.class);
 
-                        //the email it is going to
-                        intent4.setData(Uri.parse("mailto:"+firebaseemail)); // Specify the recipient email address
+                                // Start the NextActivity
+                                startActivity(intent);
+                            }
+                        });
 
-                        //set the subject of the email
-                        intent4.putExtra(Intent.EXTRA_SUBJECT, "Forgotten password");
-
-                        //set the text of the email, which is the password
-                        intent4.putExtra(Intent.EXTRA_TEXT, "Your password is: "+firebasepassword);
-
-                        // Verify if there's an app to handle the intent
-                        if (intent4.resolveActivity(getPackageManager()) != null) {
-                            startActivity(intent4);
-                        } else {
-                            Toast.makeText(ForgotPass_Page.this, "No email app installed", Toast.LENGTH_SHORT).show();
-                        }
+                        //implements the dialog
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 }
             }
