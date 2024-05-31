@@ -22,16 +22,16 @@
         android:id="@+id/Token"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Token:"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
-        android:background="#A966CC"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/lightblue"
         android:paddingLeft="5dp"
+        android:paddingTop="10dp"
         android:paddingRight="270dp"
+        android:paddingBottom="10dp"
+        android:text="Token:"
+        android:textColor="@color/white"
+        android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -71,5 +71,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Token" />
+
+    <ImageView
+        android:id="@+id/backb1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/back_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

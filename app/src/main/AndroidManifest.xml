@@ -17,6 +17,9 @@
             android:name=".Review_Card_Page"
             android:exported="false" />
         <activity
+            android:name=".ForgotPass_Page"
+            android:exported="false" />
+        <activity
             android:name=".Register_Page"
             android:exported="false" />
         <activity
