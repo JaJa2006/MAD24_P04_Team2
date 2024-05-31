@@ -1,5 +1,9 @@
 package com.example.main_activity;
 
+import static android.content.Intent.getIntent;
+import static androidx.core.content.ContextCompat.startActivity;
+import static androidx.core.content.IntentCompat.getSerializableExtra;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,22 +28,21 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
     public void onBindViewHolder(DeckViewHolder holder, int position) {
         Deck deck = data.get(position);
         holder.deckName.setText(deck.deckName);
-        if (deck.deckId == 1) {
-            holder.deckName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent createDeck = new Intent(v.getContext(),Create_Deck_Page.class);
-                    v.getContext().startActivity(createDeck);
-                }
-            });
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        holder.deckName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = holder.deckName.getContext();
+                Intent ReviewCardPage = new Intent(context, Review_Card_Page.class);
+                ReviewCardPage.putExtra("Deck",deck.Cardlist);
+                context.startActivity(ReviewCardPage);
+            }
+        });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                }
-            });
-
-        }
+            }
+        });
     }
     public int getItemCount() {
         return data.size();

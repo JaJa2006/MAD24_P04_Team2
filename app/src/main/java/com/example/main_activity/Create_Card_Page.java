@@ -46,7 +46,7 @@ public class Create_Card_Page extends AppCompatActivity {
         BtnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                // Create deck and send it to fire base
             }
         });
 
