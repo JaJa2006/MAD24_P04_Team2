@@ -2,14 +2,8 @@ package com.example.main_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -33,17 +27,20 @@ public class MainActivity extends AppCompatActivity {
         BtnFlashCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ManageDeckPage = new Intent(MainActivity.this,Manage_Decks_Page.class);
+                Intent ManageDeckPage = new Intent(MainActivity.this, Manage_Decks_Page.class);
                 startActivity(ManageDeckPage);
             }
         });
-        Button settingsIcon = findViewById(R.id.settingsIcon);
-        settingsIcon.setOnClickListener(new View.OnClickListener() {
+
+        // Settings button code
+        Button btnSettings = findViewById(R.id.btn_open_settings);
+        btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent EnterSettingsPage = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(EnterSettingsPage);
+                Intent settingsPage = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsPage);
             }
         });
     }
 }
+
