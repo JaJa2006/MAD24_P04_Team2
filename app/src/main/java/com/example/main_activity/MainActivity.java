@@ -28,13 +28,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        // button for flashcard
         Button BtnFlashCard = findViewById(R.id.btnFlashCards);
         Button BtnTimer = findViewById(R.id.btnTimer);
+        // on click listener for flashcard button to bring to new activity
         BtnFlashCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // create intent
                 Intent ManageDeckPage = new Intent(MainActivity.this,Manage_Decks_Page.class);
+                // start manage deck page
                 startActivity(ManageDeckPage);
             }
         });

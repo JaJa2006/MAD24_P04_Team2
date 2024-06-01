@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+// flashcard class
 public class Flashcard {
     public String cardName;
     public String front;
@@ -16,15 +16,10 @@ public class Flashcard {
         this.back = back;
         this.cardId = cardId;
     }
-    public JSONObject getJSONObject() {
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("CardName", cardName);
-            obj.put("Front", front);
-            obj.put("Back", back);
-            obj.put("Id", cardId);
-        } catch (JSONException e) {
-        }
-        return obj;
+    public Flashcard(String cardName, String front, String back) {
+        this.cardName = cardName;
+        this.front = front;
+        this.back = back;
+    }
 }
-}
+

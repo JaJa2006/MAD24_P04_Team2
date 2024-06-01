@@ -1,7 +1,7 @@
 package com.example.main_activity;
 
 import java.util.ArrayList;
-
+// deck class
 public class Deck {
     public String deckName;
     public ArrayList<Flashcard> Cardlist;
