@@ -25,6 +25,7 @@ public class NotificationReceiver extends BroadcastReceiver {
                 .build();
 
         notificationManager.notify(1, notification);
+
     }
 }
 
