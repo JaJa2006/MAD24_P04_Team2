@@ -3,7 +3,9 @@ package com.example.main_activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -22,11 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class Manage_Decks_Page extends AppCompatActivity {
-
-    // creating the list to hold the decks
-    // This deck need to get from the firebase
-    ArrayList<Deck> decks = new ArrayList<Deck>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +36,40 @@ public class Manage_Decks_Page extends AppCompatActivity {
         });
         // Setting up the add deck for the button in the class
         TextView AddCardButton = findViewById(R.id.tvAddCard);
+        ImageView ivBack = findViewById(R.id.ivManageBack);
+        // add card button to go to the create deck page to start the deck making
         AddCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // create intent to go to create deck page
                 Intent createDeck = new Intent(v.getContext(),Create_Deck_Page.class);
                 v.getContext().startActivity(createDeck);
             }
         });
 
+        // back button to go back to the main activity page
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+    // update the page with the data base when the page is reloaded
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // get the deck from the data base
+        DeckDatabaseHandler dbHandler = new DeckDatabaseHandler(Manage_Decks_Page.this, null, null, 1);
+        ArrayList<Deck> decks = dbHandler.getDeck();
+        // get the recyclerview from the XML
         RecyclerView recyclerView = findViewById(R.id.rvDeckButton);
+        // fill the layout with the information from the data base
         DeckAdapter mAdapter = new DeckAdapter(decks,this);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-
     }
 }
