@@ -29,11 +29,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button BtnFlashCard = findViewById(R.id.btnFlashCards);
+        Button BtnTimer = findViewById(R.id.btnTimer);
         BtnFlashCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ManageDeckPage = new Intent(MainActivity.this,Manage_Decks_Page.class);
                 startActivity(ManageDeckPage);
+            }
+        });
+        BtnTimer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent StudySessionActivity = new Intent(MainActivity.this,StudySessionActivity.class);
+                startActivity(StudySessionActivity);
             }
         });
     }
