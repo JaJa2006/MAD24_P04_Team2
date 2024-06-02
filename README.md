@@ -21,6 +21,7 @@ The category of the app is Educational
 Feature 1- logging in (User Identity from core android developer guide) (Joshua):<br>
 Android developer guide for User identity - https://developer.android.com/training/sign-in<br>
 •	Create a login page that allow users to enter their username and password<br>
+•	Create a register page that allows users to register an account<br>
 •	Move to an authentication page where the user needs to key the OTP shown in a toaster<br>
 ![alt text](Feature1.png)
  
