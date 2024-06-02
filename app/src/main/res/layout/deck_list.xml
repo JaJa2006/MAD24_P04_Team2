@@ -13,6 +13,7 @@
         android:layout_weight="1"
         android:background="@drawable/round_corner"
         android:gravity="center"
+        android:textColor="@color/white"
         android:text="TextViews"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"

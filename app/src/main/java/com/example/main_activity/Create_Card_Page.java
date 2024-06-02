@@ -41,8 +41,13 @@ public class Create_Card_Page extends AppCompatActivity {
             // on click make sure all field are filled and add card if filed
             @Override
             public void onClick(View v) {
+                //combine all string to check if have delimiter
+                String allStrirng = EtCardName.getText().toString() + EtCardFront.getText().toString() + EtCardBack.getText().toString();
                 if (EtCardName.getText().toString().matches("") || EtCardFront.getText().toString().matches("") ||EtCardBack.getText().toString().matches("")){
                     Toast.makeText(Create_Card_Page.this, "All fields need to be filled", Toast.LENGTH_SHORT).show();
+                }else if (allStrirng.contains(",") || allStrirng.contains("/")) {
+                    // Make sure users are not using the delimiter used
+                    Toast.makeText(Create_Card_Page.this, "Fields cannot have , or /", Toast.LENGTH_SHORT).show();
                 }else {
                     // Create flashcard
                     Flashcard flashcard = new Flashcard(EtCardName.getText().toString(),EtCardFront.getText().toString(),EtCardBack.getText().toString());
