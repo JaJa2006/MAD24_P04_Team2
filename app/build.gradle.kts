@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    id("com.google.gms.google-services")
+    //id("com.google.gms.google-services")
 }
 
 android {
@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.main_activity"
+        applicationId = "sg.edu.np.mad.main_activity"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
