@@ -1,23 +1,23 @@
 package com.example.main_activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final int RC_NOTIFICATION = 99;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         // button for flashcard
-        Button BtnFlashCard = findViewById(R.id.btnFlashCards);
-        Button BtnTimer = findViewById(R.id.btnTimer);
+        TextView tvFlashCard = findViewById(R.id.tvFlashCards);
+        TextView tvTimer = findViewById(R.id.tvTimer);
+        TextView tvMemo = findViewById(R.id.tvMemo);
+        TextView tvSettingsIcon = findViewById(R.id.tvSettings);
         // on click listener for flashcard button to bring to new activity
-        BtnFlashCard.setOnClickListener(new View.OnClickListener() {
+        tvFlashCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // create intent
@@ -41,20 +43,45 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(ManageDeckPage);
             }
         });
-        BtnTimer.setOnClickListener(new View.OnClickListener() {
+        tvTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent StudySessionActivity = new Intent(MainActivity.this,StudySessionActivity.class);
+                Intent StudySessionActivity = new Intent(MainActivity.this,StudySessionPage.class);
                 startActivity(StudySessionActivity);
             }
         });
-        Button settingsIcon = findViewById(R.id.settingsIcon);
-        settingsIcon.setOnClickListener(new View.OnClickListener() {
+        tvMemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent EnterSettingsPage = new Intent(MainActivity.this, SettingsActivity.class);
+                Intent EnterSettingsPage = new Intent(MainActivity.this, Memo_Page.class);
                 startActivity(EnterSettingsPage);
             }
         });
+        tvSettingsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent EnterSettingsPage = new Intent(MainActivity.this, Settings_Page.class);
+                startActivity(EnterSettingsPage);
+            }
+        });
+        // check if permission for notification is enabled
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Ask permission for notification
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, RC_NOTIFICATION);
+            }
+        }
+    }
+    // to handle notification permission result
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == RC_NOTIFICATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this,"ALLOWED",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this,"DENIED",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

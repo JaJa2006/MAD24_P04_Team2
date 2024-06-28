@@ -8,35 +8,111 @@
     android:background="#00FFFFFF"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/btnFlashCards"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Flash Cards"
+    <TextView
+        android:id="@+id/tvHomeBanner"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/darkblue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/settingsIcon"
+    <TextView
+        android:id="@+id/tvHomeBannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Settings"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Home"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/white"
+        android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTimer" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnTimer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timer"
-        android:layout_marginTop="20dp"
+    <View
+        android:id="@+id/Homeline1"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnFlashCards" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHomeBannerText" />
+
+    <TextView
+        android:id="@+id/tvFlashCards"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/lightblue"
+        android:text="Flash Card"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Homeline1" />
+
+    <View
+        android:id="@+id/Homeline2"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFlashCards" />
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/lightblue"
+        android:text="Timer"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Homeline2" />
+
+    <View
+        android:id="@+id/Homeline3"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
+
+    <TextView
+        android:id="@+id/tvMemo"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/lightblue"
+        android:text="Memo"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Homeline3" />
+
+    <View
+        android:id="@+id/Homeline4"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemo" />
+
+    <TextView
+        android:id="@+id/tvSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/settings_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvHomeBanner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

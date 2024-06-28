@@ -6,6 +6,7 @@ import static androidx.core.content.IntentCompat.getSerializableExtra;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,11 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
                 // create instant of dbhandler and delete deck from there
                 DeckDatabaseHandler dbHandler = new DeckDatabaseHandler(v.getContext(), null, null, 1);
                 dbHandler.DeleteDeck(deck);
+                // refresh the page
+                Context context = holder.delete.getContext();
+                Intent refresh = new Intent(context, Manage_Decks_Page.class);
+                context.startActivity(refresh);
+                ((Manage_Decks_Page)context).finish();
             }
         });
     }
