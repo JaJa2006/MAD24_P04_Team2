@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvMemoText"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_weight="1"
+        android:background="@drawable/round_corner"
+        android:gravity="center"
+        android:text="TextViews"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="55dp"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tvDeleteText"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:background="@drawable/delete_deck"
+        app:layout_constraintEnd_toEndOf="@+id/tvMemoText"
+        app:layout_constraintTop_toTopOf="@+id/tvMemoText" />
+
+    <TextView
+        android:id="@+id/tvMemoImage"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="55dp"
+        android:background="@drawable/round_corner"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMemoText" />
+
+    <ImageView
+        android:id="@+id/tvDeleteImage"
+        android:layout_width="36dp"
+        android:layout_height="39dp"
+        android:background="@drawable/delete_deck"
+        app:layout_constraintEnd_toEndOf="@+id/tvMemoImage"
+        app:layout_constraintTop_toTopOf="@+id/tvMemoImage" />
+
+    <ImageView
+        android:id="@+id/tvImage"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMemoImage"
+        app:layout_constraintEnd_toEndOf="@+id/tvMemoImage"
+        app:layout_constraintStart_toStartOf="@+id/tvMemoImage"
+        app:layout_constraintTop_toTopOf="@+id/tvMemoImage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
