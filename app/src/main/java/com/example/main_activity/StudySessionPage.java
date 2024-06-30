@@ -24,13 +24,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class StudySessionPage extends AppCompatActivity {
     private EditText etMinutes;
-    private Button btnStart;
-    private Button btnEnd;
+    private TextInputLayout timeInputLayout;
+    private TextView tvStart;
+    private TextView tvEnd;
     private TextView tvTimer;
     private CountDownTimer timer;
     private long duration;
@@ -49,11 +52,12 @@ public class StudySessionPage extends AppCompatActivity {
         });
         // get all the elements from the xml
         etMinutes = findViewById(R.id.et_minutes);
-        btnStart = findViewById(R.id.btn_start);
-        btnEnd = findViewById(R.id.btn_end);
+        timeInputLayout = findViewById(R.id.timeImputLayout);
+        tvStart = findViewById(R.id.tvStart);
+        tvEnd = findViewById(R.id.tvEnd);
         tvTimer = findViewById(R.id.tv_timer);
         tvTimer.setVisibility(View.GONE);
-        btnEnd.setEnabled(false);
+        tvEnd.setEnabled(false);
         ImageView ivBack = findViewById(R.id.ivSessionBack);
 
         // back button to go back to the main activity page
@@ -65,7 +69,7 @@ public class StudySessionPage extends AppCompatActivity {
         });
 
         // onclick listener for the start timer
-        btnStart.setOnClickListener(new View.OnClickListener() {
+        tvStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (etMinutes.getText().toString().isEmpty()) {
@@ -79,9 +83,9 @@ public class StudySessionPage extends AppCompatActivity {
                     timerRunning = true;
                     duration = TimeUnit.MINUTES.toMillis(Integer.parseInt(etMinutes.getText().toString()));
                     tvTimer.setVisibility(View.VISIBLE);
-                    etMinutes.setVisibility(View.GONE);
-                    btnStart.setEnabled(false);
-                    btnEnd.setEnabled(true);
+                    timeInputLayout.setVisibility(View.GONE);
+                    tvStart.setEnabled(false);
+                    tvEnd.setEnabled(true);
                     // function to start timer
                     startTimer();
                     timer.start();
@@ -93,15 +97,15 @@ public class StudySessionPage extends AppCompatActivity {
             }
         });
         // button to end the timer
-        btnEnd.setOnClickListener(new View.OnClickListener() {
+        tvEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //set all the elements to be able to set timer
                 timerRunning = false;
                 tvTimer.setVisibility(View.GONE);
-                etMinutes.setVisibility(View.VISIBLE);
-                btnStart.setEnabled(true);
-                btnEnd.setEnabled(false);
+                timeInputLayout.setVisibility(View.VISIBLE);
+                tvStart.setEnabled(true);
+                tvEnd.setEnabled(false);
                 // cancel timer
                 timer.cancel();
                 // cancel alarm
@@ -137,9 +141,9 @@ public class StudySessionPage extends AppCompatActivity {
                 // set all the timer elements back to allow user to set a new timer
                 timerRunning = false;
                 tvTimer.setVisibility(View.GONE);
-                etMinutes.setVisibility(View.VISIBLE);
-                btnStart.setEnabled(true);
-                btnEnd.setEnabled(false);
+                timeInputLayout.setVisibility(View.VISIBLE);
+                tvStart.setEnabled(true);
+                tvEnd.setEnabled(false);
                 timer.cancel();
                 Toast.makeText(StudySessionPage.this, "Time's up!", Toast.LENGTH_SHORT).show();
             }
@@ -185,9 +189,9 @@ public class StudySessionPage extends AppCompatActivity {
                 // if timer is still running
                 // start the timer with the amount of time left
                 tvTimer.setVisibility(View.VISIBLE);
-                etMinutes.setVisibility(View.GONE);
-                btnStart.setEnabled(false);
-                btnEnd.setEnabled(true);
+                timeInputLayout.setVisibility(View.GONE);
+                tvStart.setEnabled(false);
+                tvEnd.setEnabled(true);
                 startTimer();
                 timer.start();
             }

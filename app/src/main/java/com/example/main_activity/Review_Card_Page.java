@@ -61,7 +61,7 @@ public class Review_Card_Page extends AppCompatActivity {
         TextView tvAnswer = findViewById(R.id.tvAnswer);
         ImageView ivNextCard = findViewById(R.id.ivNextCard);
         ImageView ivPreviousCard = findViewById(R.id.ivPreviousCard);
-        Button btnShowAnswer = findViewById(R.id.btnShowAnswer);
+        TextView tvShowAnswer = findViewById(R.id.tvShowAnswer);
         ImageView ivBack = findViewById(R.id.ivReviewBack);
 
 
@@ -106,7 +106,7 @@ public class Review_Card_Page extends AppCompatActivity {
             }
         });
         // show the answer button
-        btnShowAnswer.setOnClickListener(new View.OnClickListener() {
+        tvShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // show the required fields

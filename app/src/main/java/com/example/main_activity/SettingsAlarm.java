@@ -7,15 +7,14 @@ import android.content.Intent;
 
 public class SettingsAlarm {
     // function to schedule the alarm
-    public static void scheduleAlarm(Context context, long intervalMillis) {
+    public static void scheduleAlarm(Context context, long triggerAtMillis) {
         // get alarm manager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // create an intent
         Intent intent = new Intent(context, ReminderNotificationReceiver.class);
         // create the intent for broadcast
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        // get the time for the notification to show up
-        long triggerAtMillis = System.currentTimeMillis() + intervalMillis;
+        long intervalMillis = (long) 24*60*60*1000;
         // use the alarm manager to send the repeating alarm notification at the specified time and an interval for the time between notification
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis, intervalMillis, pendingIntent);
     }

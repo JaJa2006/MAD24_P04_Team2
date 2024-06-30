@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,9 +23,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
+
 public class CreateMemo extends AppCompatActivity {
 
-    Button addImage;
+    TextView addImage;
     ImageView imageAdded;
     String StringURI;
     EditText MemoText;
@@ -43,44 +47,41 @@ public class CreateMemo extends AppCompatActivity {
             return insets;
         });
         // get all elements from the xml file
-        TextView Text = findViewById(R.id.tvText);
-        TextView Image = findViewById(R.id.tvImage);
-        addImage = findViewById(R.id.btnAddImage);
-        Button createMemo = findViewById(R.id.btnCreateMemo);
+        TextInputLayout memoImputLayout = findViewById(R.id.memoImputLayout);
+        MaterialAutoCompleteTextView MemoInput = findViewById(R.id.MemoInput);
+        addImage = findViewById(R.id.tvAddImage);
+        TextView createMemo = findViewById(R.id.tvCreateMemo);
         MemoText = findViewById(R.id.etMemo);
         imageAdded = findViewById(R.id.ivAddedImage);
 
+        // option list
+        MemoInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    memoImputLayout.setVisibility(View.VISIBLE);
+                    MemoText.setVisibility(View.VISIBLE);
+                    imageAdded.setVisibility(View.GONE);
+                    addImage.setVisibility(View.GONE);
+                    isTextMemo = true;
+                } else if (position == 1) {
+                    memoImputLayout.setVisibility(View.GONE);
+                    MemoText.setVisibility(View.GONE);
+                    imageAdded.setVisibility(View.VISIBLE);
+                    addImage.setVisibility(View.VISIBLE);
+                    isTextMemo = false;
+                }
+            }
+        });
+
+
         // set the view for the page when you first enter the activity
-        Text.setBackgroundResource(R.color.darkblue);
-        MemoText.setVisibility(View.VISIBLE);
+        memoImputLayout.setVisibility(View.GONE);
+        MemoText.setVisibility(View.GONE);
         imageAdded.setVisibility(View.GONE);
         addImage.setVisibility(View.GONE);
         registerResult();
 
-        // button to se the memo to text
-        Text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isTextMemo = true;
-                Text.setBackgroundResource(R.color.darkblue);
-                Image.setBackgroundResource(R.color.lightblue);
-                MemoText.setVisibility(View.VISIBLE);
-                imageAdded.setVisibility(View.GONE);
-                addImage.setVisibility(View.GONE);
-            }
-        });
-        // button to set the memo to image
-        Image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isTextMemo = false;
-                Image.setBackgroundResource(R.color.darkblue);
-                Text.setBackgroundResource(R.color.lightblue);
-                MemoText.setVisibility(View.GONE);
-                imageAdded.setVisibility(View.VISIBLE);
-                addImage.setVisibility(View.VISIBLE);
-            }
-        });
         // button to add the image using image picker from the phone's gallery
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override

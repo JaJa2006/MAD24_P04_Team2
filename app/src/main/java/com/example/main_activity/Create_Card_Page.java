@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 public class Create_Card_Page extends AppCompatActivity {
@@ -34,10 +37,10 @@ public class Create_Card_Page extends AppCompatActivity {
         EditText EtCardName = findViewById(R.id.etCardName);
         EditText EtCardFront = findViewById(R.id.etCardFront);
         EditText EtCardBack = findViewById(R.id.etCardBack);
-        Button BtnCreateCard = findViewById(R.id.btnCreateCard);
-        Button BtnFinish = findViewById(R.id.btnFinish);
+        TextView tvCreateCard = findViewById(R.id.tvCreateCard);
+        TextView tvFinish = findViewById(R.id.tvFinish);
         // create card onclick listener
-        BtnCreateCard.setOnClickListener(new View.OnClickListener() {
+        tvCreateCard.setOnClickListener(new View.OnClickListener() {
             // on click make sure all field are filled and add card if filed
             @Override
             public void onClick(View v) {
@@ -61,7 +64,7 @@ public class Create_Card_Page extends AppCompatActivity {
             }
         });
         // finish creating card button
-        BtnFinish.setOnClickListener(new View.OnClickListener() {
+        tvFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // make sure ther are at least 2 cards

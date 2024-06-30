@@ -18,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,7 +69,7 @@ public class Manage_Decks_Page extends AppCompatActivity {
         DeckAdapter mAdapter = new DeckAdapter(decks,this);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
-        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
     }

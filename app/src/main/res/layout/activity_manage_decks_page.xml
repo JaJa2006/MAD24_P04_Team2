@@ -5,16 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Manage_Decks_Page">
-
-    <TextView
-        android:id="@+id/tvBanner"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/darkblue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".Manage_Decks_Page"
+    android:background="@drawable/background_1">
 
     <TextView
         android:id="@+id/tvBannerText"
@@ -24,7 +16,7 @@
         android:layout_marginLeft="10dp"
         android:textColor="@color/white"
         android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivManageBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -34,12 +26,12 @@
         android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvBanner" />
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/tvAddCard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:text="+"
         android:textColor="@color/white"
         android:background="@drawable/add_button"
@@ -55,7 +47,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

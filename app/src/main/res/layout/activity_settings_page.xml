@@ -5,13 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings_Page">
+    tools:context=".Settings_Page"
+    android:background="@drawable/background_1">
 
-    <TextView
-        android:id="@+id/tvSettingsBanner"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/darkblue"
+
+    <ImageView
+        android:id="@+id/iv_Notification_back"
+        android:layout_width="374dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,11 +23,11 @@
         android:id="@+id/tvSettingsBannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notification Settings"
         android:layout_marginLeft="10dp"
+        android:text="Notification Settings"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivSettingsBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -32,42 +35,50 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editText_interval"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
+    <TextView
+        android:id="@+id/tvNotificationTime"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@drawable/notification_time_back"
+        android:gravity="center"
+        android:text="00:00 AM"
+        android:textColor="@color/white"
+        android:textSize="50sp"
         android:layout_marginTop="20dp"
-        android:hint="Notifications interval (minutes)"
-        android:inputType="number"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSettingsBanner"
-        app:layout_constraintVertical_bias="0.059" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_Notification_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Notification_back"
+        app:layout_constraintTop_toTopOf="@+id/iv_Notification_back" />
 
-    <Button
-        android:id="@+id/btn_Apply"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tv_Apply"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:text="Apply"
-        app:layout_constraintEnd_toStartOf="@+id/btn_Remove"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="Set"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Notification_back"
+        app:layout_constraintEnd_toStartOf="@+id/tv_Remove"
+        app:layout_constraintStart_toStartOf="@+id/iv_Notification_back" />
 
-    <Button
-        android:id="@+id/btn_Remove"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tv_Remove"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/button_outline"
+        android:gravity="center"
         android:text="Remove"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_Apply"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:textColor="#025B81"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Notification_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Notification_back"
+        app:layout_constraintStart_toEndOf="@+id/tv_Apply" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

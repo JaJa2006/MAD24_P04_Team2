@@ -3,6 +3,7 @@ package com.example.main_activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,11 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -41,6 +44,12 @@ public class ForgotPass_Page extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // background animation
+        ConstraintLayout constraintLayout = findViewById(R.id.main);
+        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2500);
+        animationDrawable.setExitFadeDuration(5000);
+        animationDrawable.start();
 
         //assign the edittext fields to variables
         EditText usernamez = findViewById(R.id.userinput);
@@ -79,7 +88,7 @@ public class ForgotPass_Page extends AppCompatActivity {
         usernamez.addTextChangedListener(textWatcher);
 
         //assign retrieve xml button to ret variable
-        Button ret = findViewById(R.id.retrieve);
+        TextView ret = findViewById(R.id.retrieve);
 
 
         ret.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +149,7 @@ public class ForgotPass_Page extends AppCompatActivity {
         backtolog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentback = new Intent(ForgotPass_Page.this,Login_Page.class);
-                startActivity(intentback);
+                finish();
             }
         });
     }

@@ -50,6 +50,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoViewHolder>{
                 // refresh the page
                 Context context = holder.deleteText.getContext();
                 Intent refresh = new Intent(context, Memo_Page.class);
+                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 context.startActivity(refresh);
                 ((Memo_Page)context).finish();
             }
@@ -64,6 +65,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoViewHolder>{
                 // refresh the page
                 Context context = holder.deleteImage.getContext();
                 Intent refresh = new Intent(context, Memo_Page.class);
+                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 context.startActivity(refresh);
                 ((Memo_Page)context).finish();
             }
