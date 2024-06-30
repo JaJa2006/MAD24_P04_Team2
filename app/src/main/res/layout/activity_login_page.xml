@@ -5,98 +5,66 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login_Page">
+    tools:context=".Login_Page"
+    android:background="@drawable/gradient_list">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="LOGIN"
-        android:textSize="50dp"
+
+    <ImageView
+        android:id="@+id/ivLockIcon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/lock_icon"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/iv_login_back"
+        android:layout_width="374dp"
+        android:layout_height="410dp"
+        android:layout_marginTop="192dp"
+        android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Username"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp"
-        android:background="@color/lightblue"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="220dp"
-        android:paddingBottom="10dp"
-        android:text="Username:"
+        android:layout_marginTop="125dp"
+        android:text="LOGIN TO MEMO"
+        android:textSize="30sp"
         android:textColor="@color/white"
-        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
-        android:id="@+id/Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="150dp"
-        android:background="@color/lightblue"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingRight="220dp"
-        android:paddingBottom="10dp"
-        android:text="Password:"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/userinput"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="58dp"
-        android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/passinput"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="158dp"
-        android:maxLines="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
         android:id="@+id/loginb"
-        android:layout_width="wrap_content"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="70dp"
-        android:paddingLeft="30dp"
-        android:paddingTop="20dp"
-        android:paddingRight="30dp"
-        android:paddingBottom="20dp"
         android:text="LOGIN"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:background="@drawable/button"
+        app:layout_constraintBottom_toTopOf="@+id/forgotpass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <TextView
         android:id="@+id/regbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="20sp"
-        android:layout_marginBottom="150dp"
-        app:layout_constraintBottom_toTopOf="@+id/loginb"
+        android:text="@string/SignUp"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -104,12 +72,58 @@
         android:id="@+id/forgotpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot password?"
-        android:textStyle="bold"
+        android:text="@string/ForgotPass"
         android:textSize="20sp"
-        android:layout_marginBottom="390dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_login_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:id="@+id/usernameImputLayout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/person_icon"
+        android:hint="Username"
+        app:helperText="Required*"
+        app:endIconMode="clear_text"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="@+id/iv_login_back">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/usernameImputEdit"
+            android:maxLength="30"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:id="@+id/passwordImputLayout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/lock_icon"
+        android:hint="Password"
+        app:helperText="Required*"
+        app:endIconMode="password_toggle"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="120dp"
+        app:layout_constraintTop_toTopOf="@+id/iv_login_back">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordImputEdit"
+            android:maxLength="30"
+            android:textColor="@color/black"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,8 +15,8 @@
         android:text="TextViews"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="55dp"
-        android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textSize="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +25,7 @@
         android:id="@+id/tvDeleteText"
         android:layout_width="36dp"
         android:layout_height="39dp"
-        android:background="@drawable/delete_deck"
+        android:background="@drawable/remove_deck"
         app:layout_constraintEnd_toEndOf="@+id/tvMemoText"
         app:layout_constraintTop_toTopOf="@+id/tvMemoText" />
 
@@ -45,7 +45,7 @@
         android:id="@+id/tvDeleteImage"
         android:layout_width="36dp"
         android:layout_height="39dp"
-        android:background="@drawable/delete_deck"
+        android:background="@drawable/remove_deck"
         app:layout_constraintEnd_toEndOf="@+id/tvMemoImage"
         app:layout_constraintTop_toTopOf="@+id/tvMemoImage" />
 

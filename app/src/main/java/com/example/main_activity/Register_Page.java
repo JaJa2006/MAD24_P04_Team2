@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +100,7 @@ public class Register_Page extends AppCompatActivity {
         emaila.addTextChangedListener(textWatcher);
 
         //assign xml button createbtn to btnreg variable
-        Button btnreg = findViewById(R.id.createbtn);
+        TextView btnreg = findViewById(R.id.createbtn);
         btnreg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,11 +169,7 @@ public class Register_Page extends AppCompatActivity {
                                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // Define an Intent to navigate to the NextActivity
-                                        Intent intent = new Intent(Register_Page.this, Login_Page.class);
-
-                                        // Start the NextActivity
-                                        startActivity(intent);
+                                        finish();
                                     }
                                 });
 
@@ -179,11 +178,7 @@ public class Register_Page extends AppCompatActivity {
                                 builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                     @Override
                                     public void onCancel(DialogInterface dialog) {
-                                        // Define an Intent to navigate to the NextActivity
-                                        Intent intent = new Intent(Register_Page.this, Login_Page.class);
-
-                                        // Start the NextActivity
-                                        startActivity(intent);
+                                        finish();
                                     }
                                 });
 
@@ -201,8 +196,7 @@ public class Register_Page extends AppCompatActivity {
         backbutton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intentback = new Intent(Register_Page.this,Login_Page.class);
-                startActivity(intentback);
+                finish();
             }
         });
     }

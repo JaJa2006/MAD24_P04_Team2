@@ -28,12 +28,28 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // button for flashcard
+        // recieve intent to get username
+        Intent receivingEnd = getIntent();
+        String Name = receivingEnd.getStringExtra("Username");
+
+        // set up welcome
+        TextView tvName = findViewById(R.id.tvName);
+        tvName.setText(Name);
+
+
+        // buttons
         TextView tvFlashCard = findViewById(R.id.tvFlashCards);
         TextView tvTimer = findViewById(R.id.tvTimer);
         TextView tvMemo = findViewById(R.id.tvMemo);
         TextView tvSettingsIcon = findViewById(R.id.tvSettings);
+        TextView tvSignOut = findViewById(R.id.tvSignOut);
         // on click listener for flashcard button to bring to new activity
+        tvSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         tvFlashCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

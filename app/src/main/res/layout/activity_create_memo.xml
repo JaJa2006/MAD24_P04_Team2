@@ -5,16 +5,44 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateMemo">
+    tools:context=".CreateMemo"
+    android:background="@drawable/background_1">
 
-    <TextView
-        android:id="@+id/tvMemoBanner"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/darkblue"
+    <ImageView
+        android:id="@+id/iv_Create_Memo_back"
+        android:layout_width="374dp"
+        android:layout_height="575dp"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/MemoOptionImputLayout"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:hint="Select an Option"
+        app:boxCornerRadiusBottomEnd="10sp"
+        app:boxCornerRadiusBottomStart="10sp"
+        app:boxCornerRadiusTopEnd="10sp"
+        app:boxCornerRadiusTopStart="10sp"
+        android:layout_marginTop="20dp"
+        app:endIconMode="dropdown_menu"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_Create_Memo_back">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/MemoInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            app:simpleItems="@array/option_list" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvMemoText"
@@ -27,97 +55,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/Memoline1"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvMemoBanner" />
-
-    <TextView
-        android:id="@+id/tvText"
-        android:layout_width="205dp"
-        android:layout_height="55dp"
-        android:background="@color/lightblue"
-        android:gravity="center"
-        android:text="Text"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Memoline1" />
-
-    <TextView
-        android:id="@+id/tvImage"
-        android:layout_width="205dp"
-        android:layout_height="55dp"
-        android:background="@color/lightblue"
-        android:gravity="center"
-        android:text="Image"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Memoline1" />
-
-    <View
-        android:id="@+id/Memoline2"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvText" />
-
-    <View
-        android:id="@+id/Memoline3"
-        android:layout_width="3dp"
-        android:layout_height="58dp"
-        android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/Memoline2"
-        app:layout_constraintEnd_toStartOf="@+id/tvImage"
-        app:layout_constraintStart_toEndOf="@+id/tvText"
-        app:layout_constraintTop_toBottomOf="@+id/Memoline1" />
-
-    <EditText
-        android:id="@+id/etMemo"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/memoImputLayout"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:hint="Enter Memo"
-        android:textSize="25dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Memoline2" />
+        app:counterEnabled="true"
+        app:counterMaxLength="40"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        android:layout_marginTop="10dp"
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Create_Memo_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Create_Memo_back"
+        app:layout_constraintTop_toBottomOf="@+id/MemoOptionImputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etMemo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="40"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/ivAddedImage"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
-        android:layout_marginTop="75dp"
+        android:layout_width="250dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Memoline2" />
+        app:layout_constraintTop_toBottomOf="@+id/MemoOptionImputLayout" />
 
-    <Button
-        android:id="@+id/btnAddImage"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvAddImage"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_outline"
+        android:gravity="center"
         android:text="Add Image"
+        android:textSize="30sp"
+        android:textColor="#025B81"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Create_Memo_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Create_Memo_back"
         app:layout_constraintTop_toBottomOf="@+id/ivAddedImage" />
 
-    <Button
-        android:id="@+id/btnCreateMemo"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvCreateMemo"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:text="Create Memo"
+        android:background="@drawable/button"
+        android:gravity="center"
+        android:text="Create"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Create_Memo_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Create_Memo_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Create_Memo_back" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

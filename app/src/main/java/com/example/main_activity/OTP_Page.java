@@ -2,6 +2,7 @@ package com.example.main_activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -33,6 +36,16 @@ public class OTP_Page extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // background animation
+        ConstraintLayout constraintLayout = findViewById(R.id.main);
+        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2500);
+        animationDrawable.setExitFadeDuration(5000);
+        animationDrawable.start();
+
+        // recieve intent to get username
+        Intent receivingEnd = getIntent();
+        String Name = receivingEnd.getStringExtra("Username");
 
         //ensures only 1 line of string
         EditText token = findViewById(R.id.tokeninput);
@@ -60,19 +73,11 @@ public class OTP_Page extends AppCompatActivity {
         token.addTextChangedListener(textWatcher);
 
         //assign authenticate xml button to auth variable
-        Button auth = findViewById(R.id.authenticate);
-        //set the button color to diff color when havent generate otp
-        if (randomNumber == null) {
-            auth.setBackgroundColor(Color.parseColor("#FFF44336")); // Set color using a hex string
-        }
-        Button otp = findViewById(R.id.otpnew);
+        TextView auth = findViewById(R.id.authenticate);
+        TextView otp = findViewById(R.id.otpnew);
         otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //after otp has been generated
-                //color of authenticate button will change
-                auth.setBackgroundColor(Color.parseColor("#A966CC")); // Set color using a hex string
                 Random random = new Random();
                 //picks random number between 0 and 90000, excluding 90000
                 //by adding 10000 the number will always be 5 digits
@@ -101,7 +106,9 @@ public class OTP_Page extends AppCompatActivity {
                         // If parsing succeeds, it's a valid integer
                         if(otpnum == randomNumber){
                             Intent MainActivity = new Intent(OTP_Page.this,MainActivity.class);
+                            MainActivity.putExtra("Username",Name);
                             startActivity(MainActivity);
+                            finish();
                         }
                         else{
                             //display if input is not the same as the otp given
@@ -121,8 +128,7 @@ public class OTP_Page extends AppCompatActivity {
         backbu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent inten111 = new Intent(OTP_Page.this, Login_Page.class);
-                startActivity(inten111);
+                finish();
             }
         });
     }

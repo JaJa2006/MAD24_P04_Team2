@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,10 +26,10 @@ public class Create_Deck_Page extends AppCompatActivity {
             return insets;
         });
         // get all button and edit text from XML
-        Button BtnCreateDeck = findViewById(R.id.btnCreateDeck);
+        TextView tvCreateDeck = findViewById(R.id.tvCreateDeck);
         EditText EtDeckName = findViewById(R.id.etDeckName);
         // on click for creating deck
-        BtnCreateDeck.setOnClickListener(new View.OnClickListener() {
+        tvCreateDeck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // check for all fields to be filled

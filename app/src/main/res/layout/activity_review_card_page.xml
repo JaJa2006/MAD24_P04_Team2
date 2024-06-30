@@ -5,13 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Review_Card_Page">
+    tools:context=".Review_Card_Page"
+    android:background="@drawable/background_1">
 
-    <TextView
-        android:id="@+id/tvRewiewCardBanner"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/darkblue"
+    <ImageView
+        android:id="@+id/iv_Review_back"
+        android:layout_width="374dp"
+        android:layout_height="450dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,11 +22,11 @@
         android:id="@+id/tvRewiewCardBannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:text="Review Card"
+        android:layout_marginLeft="10dp"
         android:textColor="@color/white"
         android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivReviewBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -34,9 +36,9 @@
         android:text="Question"
         android:textSize="30sp"
         android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRewiewCardBanner" />
+        app:layout_constraintEnd_toEndOf="@+id/iv_Review_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Review_back"
+        app:layout_constraintTop_toTopOf="@+id/iv_Review_back" />
 
     <TextView
         android:id="@+id/tvSeperator"
@@ -44,69 +46,69 @@
         android:layout_height="wrap_content"
         android:text="________________________"
         android:textSize="30sp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.536"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRewiewCardBanner" />
+        app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
 
     <TextView
         android:id="@+id/tvAnswerSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:text="Answer:"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_Review_back"
         app:layout_constraintTop_toBottomOf="@+id/tvSeperator" />
 
     <TextView
         android:id="@+id/tvAnswer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:text="Answer"
         android:textSize="30sp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.536"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Review_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Review_back"
         app:layout_constraintTop_toBottomOf="@+id/tvSeperator" />
 
-    <Button
-        android:id="@+id/btnShowAnswer"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvShowAnswer"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:gravity="center"
         android:text="Show Answer"
-        android:textSize="30dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Review_back"
+        app:layout_constraintEnd_toStartOf="@+id/ivNextCard"
+        app:layout_constraintStart_toEndOf="@+id/ivPreviousCard" />
 
     <ImageView
         android:id="@+id/ivNextCard"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="5dp"
         android:src="@drawable/next_card"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Review_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Review_back" />
 
     <ImageView
         android:id="@+id/ivPreviousCard"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:src="@drawable/previous_card"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_Review_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Review_back" />
 
     <ImageView
         android:id="@+id/ivReviewBack"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvRewiewCardBanner"
         app:layout_constraintTop_toTopOf="parent" />
 
 

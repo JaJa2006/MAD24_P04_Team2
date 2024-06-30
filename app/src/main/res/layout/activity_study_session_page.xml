@@ -5,13 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StudySessionPage">
+    tools:context=".StudySessionPage"
+    android:background="@drawable/background_1">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="@color/darkblue"
+    <ImageView
+        android:id="@+id/iv_login_back"
+        android:layout_width="374dp"
+        android:layout_height="410dp"
+        android:layout_marginTop="192dp"
+        android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,11 +22,10 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="Sessions"
+        android:text="Timer"
         android:textColor="@color/white"
         android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivSessionBack"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -32,51 +33,69 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/back_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="160dp"
         android:text="Timer"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView3" />
 
-    <EditText
-        android:id="@+id/et_minutes"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/timeImputLayout"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="__ Minutes"
-        android:inputType="number"
-        android:minHeight="48dp"
+        android:hint="Time in Minutes"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/red"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_timer" />
+        app:layout_constraintTop_toTopOf="@+id/iv_login_back">
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="30"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvStart"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
+        android:background="@drawable/button"
+        android:gravity="center"
         android:text="Start"
-        app:layout_constraintEnd_toStartOf="@+id/btn_end"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView3" />
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_login_back"
+        app:layout_constraintEnd_toStartOf="@+id/tvEnd"
+        app:layout_constraintStart_toStartOf="@+id/iv_login_back" />
 
-    <Button
-        android:id="@+id/btn_end"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvEnd"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="230dp"
-        android:text="Restart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_start"
-        app:layout_constraintTop_toBottomOf="@id/textView3" />
+        android:background="@drawable/button_outline"
+        android:gravity="center"
+        android:text="Reset"
+        android:textColor="#025B81"
+        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_login_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_login_back"
+        app:layout_constraintStart_toEndOf="@+id/tvStart" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

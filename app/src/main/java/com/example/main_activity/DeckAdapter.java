@@ -65,6 +65,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
                 // refresh the page
                 Context context = holder.delete.getContext();
                 Intent refresh = new Intent(context, Manage_Decks_Page.class);
+                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 context.startActivity(refresh);
                 ((Manage_Decks_Page)context).finish();
             }

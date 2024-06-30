@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">24 Memo</string>
+    <string name="ForgotPass"><u>Forgot password?</u></string>
+    <string name="SignUp">Don\'t have an account? <u>Sign up</u></string>
 </resources>
