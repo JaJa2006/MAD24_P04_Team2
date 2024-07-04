@@ -69,12 +69,12 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 
 Feature 2 - Allow users to listen to music while the study session timer is on (using notification and media player) 
 (Jaden)<br>
-•	On the timer page there will be a section allowing users to create playlist
-•	Users will then able to see the playlist they made and add songs to it
-•	Users will be able to select the playlist they want to play while the timer is on
-•	When the timer is started, the songs in the selected playlist will be played
-•	A notification will be sent allowing the user to see the timer and the song being played
-•	The notification will also allow users to skip songs or go to the previous song
+•	On the timer page there will be a section allowing users to create playlist<br>
+•	Users will then able to see the playlist they made and add songs to it<br>
+•	Users will be able to select the playlist they want to play while the timer is on<br>
+•	When the timer is started, the songs in the selected playlist will be played<br>
+•	A notification will be sent allowing the user to see the timer and the song being played<br>
+•	The notification will also allow users to skip songs or go to the previous song<br>
 
 Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
 •	There will be a new button on the deck to manage the deck<br>
