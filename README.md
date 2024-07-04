@@ -67,11 +67,14 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 •	The speech would be processed into text using google's api<br>
 •	The text would then be compared to check if it is similar to the answer <br>
 
-Feature 2 - Allow user to share decks with others globally and allow for rating (using firebase cloud messaging) 
+Feature 2 - Allow users to listen to music while the study session timer is on (using notification and media player) 
 (Jaden)<br>
-•	There will be a button to share the flashcard deck gloabally<br>
-•	There will be a page to view decks shared gloabally<br>
-•	In that page users will be able to review the deck and rate them.<br>
+•	On the timer page there will be a section allowing users to create playlist
+•	Users will then able to see the playlist they made and add songs to it
+•	Users will be able to select the playlist they want to play while the timer is on
+•	When the timer is started, the songs in the selected playlist will be played
+•	A notification will be sent allowing the user to see the timer and the song being played
+•	The notification will also allow users to skip songs or go to the previous song
 
 Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
 •	There will be a new button on the deck to manage the deck<br>
