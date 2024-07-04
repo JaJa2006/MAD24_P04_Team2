@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.se.omapi.Session;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +21,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +59,7 @@ public class StudySessionPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        //StudySessionPage.this.deleteDatabase("PlaylistDB.db");
         // get all the elements from the xml
         etMinutes = findViewById(R.id.et_minutes);
         timeInputLayout = findViewById(R.id.timeImputLayout);
@@ -59,12 +69,52 @@ public class StudySessionPage extends AppCompatActivity {
         tvTimer.setVisibility(View.GONE);
         tvEnd.setEnabled(false);
         ImageView ivBack = findViewById(R.id.ivSessionBack);
+        TextView tvCreatePlaylist = findViewById(R.id.tvCreatePlaylist);
 
         // back button to go back to the main activity page
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        // button to create new music playlist
+        tvCreatePlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View dialogLayout = LayoutInflater.from(StudySessionPage.this).inflate(R.layout.add_music_playlist_dialog, null);
+                TextInputEditText PlaylistName = dialogLayout.findViewById(R.id.etPlaylistName);
+                AlertDialog alertDialog = new MaterialAlertDialogBuilder(StudySessionPage.this)
+                        .setTitle("Create Playlist")
+                        .setView(dialogLayout)
+                        .setPositiveButton("Create", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (PlaylistName.getText().toString().matches("")) {
+                                    Toast.makeText(v.getContext(), "Please enter playlist name", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // if playlist name is not empty
+                                    MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","");
+                                    // create database handler to add playlist
+                                    MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
+                                    dbHandler.addPlaylist(playlist);
+                                    dialog.dismiss();
+                                    // refresh the page
+                                    Intent refresh = new Intent(v.getContext(),StudySessionPage.class);
+                                    refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(refresh);
+                                    finish();
+                                }
+
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                alertDialog.show();
             }
         });
 
@@ -197,6 +247,23 @@ public class StudySessionPage extends AppCompatActivity {
             }
         }
         super.onStart();
+    }
+    // update the page with the data base when the page is reloaded
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // get the memo from the data base
+        MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
+        ArrayList<MusicPlaylist> playlists = dbHandler.getPlaylist();
+        // get the recyclerview from the XML
+        RecyclerView recyclerView = findViewById(R.id.rvPlaylist);
+        // fill the layout with the information from the data base
+        MusicPlaylistAdapter mAdapter = new MusicPlaylistAdapter(playlists,this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
     }
     // create the notification channel
     private void createNotificationChannel() {
