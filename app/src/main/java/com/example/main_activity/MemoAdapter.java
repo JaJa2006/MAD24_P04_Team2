@@ -25,7 +25,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoViewHolder>{
     }
     // setting all the buttons of the layout
     public void onBindViewHolder(MemoViewHolder holder, int position) {
-        // get the deck data
+        // get the memo data
         Memo memo = data.get(position);
         // check if memo is text or image and set the memo content
         if (memo.isImage.matches("0")) {
