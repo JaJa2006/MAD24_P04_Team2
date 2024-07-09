@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
 
     <application
         android:allowBackup="true"
@@ -62,10 +64,16 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
 
         <receiver android:name=".ReminderNotificationReceiver" />
         <receiver android:name=".TimerNotificationReceiver" />
+        <service android:name=".SongForegroundService"
+            android:foregroundServiceType="mediaPlayback"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>

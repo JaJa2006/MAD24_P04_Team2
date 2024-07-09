@@ -95,9 +95,13 @@ public class Manage_Playlist extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (SongName.getText().toString().matches("")) {
+                                    // if song name is empty
                                     Toast.makeText(v.getContext(), "Please enter song name", Toast.LENGTH_SHORT).show();
+                                } else if (SongName.getText().toString().contains("`")) {
+                                    // if song name contains the delimiter
+                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    // if song name is not empty
+                                    // if song name is not empty and does not contain the delimiter
                                     pickAudio();
                                     dialog.dismiss();
                                 }
@@ -140,7 +144,6 @@ public class Manage_Playlist extends AppCompatActivity {
                                     songlist.SongNames += "`"+SongName.getText().toString();
                                     songlist.SongsURI += "`"+StringURI;
                                 }
-                                Toast.makeText(Manage_Playlist.this,StringURI, Toast.LENGTH_SHORT).show();
                                 // make the uri persistent and will last
                                 getContentResolver().takePersistableUriPermission(audioUri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 dbHandler.AddSong(PlaylistID,songlist.SongsURI,songlist.SongNames);
