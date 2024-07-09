@@ -1,9 +1,11 @@
 package com.example.main_activity;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -14,6 +16,7 @@ public class TimerNotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("TiNotificationReceiver", "Notification received!");
+        MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
         // Build and show notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Timer")
                 .setSmallIcon(android.R.drawable.ic_dialog_info)

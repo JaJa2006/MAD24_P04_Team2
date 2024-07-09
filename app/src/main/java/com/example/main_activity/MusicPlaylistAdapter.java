@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,11 +51,23 @@ public class MusicPlaylistAdapter extends RecyclerView.Adapter<MusicPlaylistView
                 // send the string into the manage playlist page
                 Context context = holder.PlaylistName.getContext();
                 Intent ManagePlaylist = new Intent(context, Manage_Playlist.class);
-                ManagePlaylist.putExtra("SongsURI",musicPlaylist.SongsURI);
-                ManagePlaylist.putExtra("SongNames",musicPlaylist.SongNames);
-                ManagePlaylist.putExtra("PlaylistName",musicPlaylist.PlaylistName);
                 ManagePlaylist.putExtra("PlaylistID",musicPlaylist.PlaylistID);
                 context.startActivity(ManagePlaylist);
+            }
+        });
+        // allow user to select which playlist to play during the timer session
+        holder.PlaylistSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // create instant of dbhandler and change selected to 1
+                    MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(buttonView.getContext(), null, null, 1);
+                    dbHandler.ChangeSelected(musicPlaylist.PlaylistID,"1");
+                } else {
+                    // create instant of dbhandler and change selected to 0
+                    MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(buttonView.getContext(), null, null, 1);
+                    dbHandler.ChangeSelected(musicPlaylist.PlaylistID,"0");
+                }
             }
         });
     }

@@ -2,6 +2,7 @@ package com.example.main_activity;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,6 +35,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +50,7 @@ public class StudySessionPage extends AppCompatActivity {
     private long duration;
     private long endTime;
     private boolean timerRunning;
+    private boolean serviceStart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +96,11 @@ public class StudySessionPage extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (PlaylistName.getText().toString().matches("")) {
                                     Toast.makeText(v.getContext(), "Please enter playlist name", Toast.LENGTH_SHORT).show();
+                                } else if (PlaylistName.getText().toString().contains("`")) {
+                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
                                 } else {
                                     // if playlist name is not empty
-                                    MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","");
+                                    MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","","0");
                                     // create database handler to add playlist
                                     MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
                                     dbHandler.addPlaylist(playlist);
@@ -143,6 +148,28 @@ public class StudySessionPage extends AppCompatActivity {
                     createNotificationChannel();
                     // Schedule Alarm
                     SessionAlarm.scheduleAlarm(v.getContext(),duration);
+                    // get the song data
+                    String SongName;
+                    String SongURI;
+                    try {
+                        MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
+                        SongName = dbHandler.getSelectedSongName();
+                        SongURI = dbHandler.getSelectedSongURI();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    Toast.makeText(v.getContext(), SongName, Toast.LENGTH_SHORT).show();
+                    // start foreground service for music player
+                    if (SongName.matches("") || SongURI.matches("")) {
+                    } else {
+                        Intent foregroundService = new Intent(StudySessionPage.this,SongForegroundService.class);
+                        foregroundService.putExtra("SongNames",SongName);
+                        foregroundService.putExtra("SongURI",SongURI);
+                        foregroundService.putExtra("Time",""+duration);
+                        startService(foregroundService);
+                        serviceStart = true;
+                    }
+
                 }
             }
         });
@@ -150,6 +177,19 @@ public class StudySessionPage extends AppCompatActivity {
         tvEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (serviceStart) {
+                    // create pending intent to stop the service
+                    PendingIntent pendingIntent = PendingIntent.getService(v.getContext(), 0, new Intent(v.getContext(),
+                            SongForegroundService.class).setAction("STOP"), PendingIntent.FLAG_IMMUTABLE);
+                    // handle exception of sending pending intent
+                    try {
+
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
+                }
+                serviceStart = false;
                 //set all the elements to be able to set timer
                 timerRunning = false;
                 tvTimer.setVisibility(View.GONE);

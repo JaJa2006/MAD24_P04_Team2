@@ -16,6 +16,7 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PLAYLIST_NAME = "PlaylistName";
     public static final String COLUMN_SONGS = "SongsURI";
     public static final String COLUMN_SONG_NAMES = "SongNames";
+    public static final String COLUMN_SELECTED = "Selected";
     public static final String COLUMN_PLAYLIST_ID = "id";
 
     public MusicPlaylistDatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -26,7 +27,7 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PRODUCTS_TABLE = "CREATE TABLE " + TABLE_PLAYLIST +
                 "(" + COLUMN_PLAYLIST_NAME + " TEXT," + COLUMN_SONGS + " TEXT," + COLUMN_SONG_NAMES + " TEXT,"
-                + COLUMN_PLAYLIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + ")";
+                + COLUMN_SELECTED + " TEXT," + COLUMN_PLAYLIST_ID + " INTEGER PRIMARY KEY AUTOINCREMENT" + ")";
         db.execSQL(CREATE_PRODUCTS_TABLE);
     }
     // update database if have new one
@@ -35,13 +36,14 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYLIST);
         onCreate(db);
     }
-    // add memo function to add the memo into the database
+    // add playlist function to add the playlist into the database
     public void addPlaylist(MusicPlaylist musicPlaylist) {
         ContentValues values = new ContentValues();
         // put data in data base
         values.put(COLUMN_PLAYLIST_NAME, musicPlaylist.PlaylistName);
         values.put(COLUMN_SONGS, musicPlaylist.SongsURI);
         values.put(COLUMN_SONG_NAMES, musicPlaylist.SongNames);
+        values.put(COLUMN_SELECTED, musicPlaylist.Selected);
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -62,8 +64,10 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
             playlist.SongsURI = cursor.getString(1);
             // get song names
             playlist.SongNames = cursor.getString(2);
+            // get playlist selected
+            playlist.Selected = cursor.getString(3);
             // get playlist id
-            playlist.PlaylistID = Integer.parseInt(cursor.getString(3));
+            playlist.PlaylistID = Integer.parseInt(cursor.getString(4));
             Playlists.add(playlist);
             cursor.moveToNext();
         }
@@ -87,8 +91,10 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
             Playlist.SongsURI = cursor.getString(1);
             // get song names
             Playlist.SongNames = cursor.getString(2);
+            // get playlist selected
+            Playlist.Selected = cursor.getString(3);
             // get playlist id
-            Playlist.PlaylistID = Integer.parseInt(cursor.getString(3));
+            Playlist.PlaylistID = Integer.parseInt(cursor.getString(4));
             cursor.close();
         }
         db.close();
@@ -107,7 +113,7 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
         // go to the deck position and delete the memo
         MusicPlaylist deletePlaylist = new MusicPlaylist();
         if (cursor.moveToFirst()) {
-            deletePlaylist.PlaylistID = Integer.parseInt(cursor.getString(3));
+            deletePlaylist.PlaylistID = Integer.parseInt(cursor.getString(4));
             db.delete(TABLE_PLAYLIST, COLUMN_PLAYLIST_ID + " = ?",
                     new String[] { String.valueOf(deletePlaylist.PlaylistID) });
             cursor.close();
@@ -118,14 +124,14 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
     }
     // delete songs
     public void DeleteSongs(int playlistID, int songPosition) {
-        // find the deck from with the deck id
+        // find the playlist from with the playlist id
         String query = "SELECT * FROM " + TABLE_PLAYLIST + " WHERE "
                 + COLUMN_PLAYLIST_ID + " = \""
                 + playlistID + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
-        // go to the deck position and delete the memo
+        // go to the playlist and get the playlist data
         MusicPlaylist deletePlaylist = new MusicPlaylist();
         if (cursor.moveToFirst()) {
             deletePlaylist.PlaylistName = cursor.getString(0);
@@ -133,8 +139,10 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
             deletePlaylist.SongsURI = cursor.getString(1);
             // get song names
             deletePlaylist.SongNames = cursor.getString(2);
+            // get playlist selected
+            deletePlaylist.Selected = cursor.getString(3);
             // get playlist id
-            deletePlaylist.PlaylistID = Integer.parseInt(cursor.getString(3));
+            deletePlaylist.PlaylistID = Integer.parseInt(cursor.getString(4));
             cursor.close();
         }
         if (deletePlaylist.SongNames.contains("`")){
@@ -174,5 +182,57 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
         db.update(TABLE_PLAYLIST, values, COLUMN_PLAYLIST_ID + " = " + playlistID, null );
 
         db.close();
+    }
+    public void ChangeSelected(int playlistID, String Select) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // update the table
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_SELECTED,Select);
+
+        db.update(TABLE_PLAYLIST, values, COLUMN_PLAYLIST_ID + " = " + playlistID, null );
+
+        db.close();
+    }
+    public String getSelectedSongName() {
+        // find the playlist which are selected
+        String query = "SELECT * FROM " + TABLE_PLAYLIST + " WHERE "
+                + COLUMN_SELECTED + " = \""
+                + "1" + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ArrayList<String> SongName = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(query, null);
+        // loop through the query and get the song name for selected playlist
+        while (cursor.moveToNext()) {
+            if (cursor.getString(2).matches("")) {
+            } else {
+                SongName.add(cursor.getString(2));
+            }
+        }
+        cursor.close();
+        db.close();
+        return String.join("`",SongName);
+    }
+    public String getSelectedSongURI() {
+        // find the playlist which are selected
+        String query = "SELECT * FROM " + TABLE_PLAYLIST + " WHERE "
+                + COLUMN_SELECTED + " = \""
+                + "1" + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ArrayList<String> SongURI = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery(query, null);
+        // loop through the query and get the song uri for selected playlist
+        while (cursor.moveToNext()) {
+            if (cursor.getString(1).matches("")) {
+            } else {
+                SongURI.add(cursor.getString(1));
+            }
+        }
+        cursor.close();
+        db.close();
+        return String.join("`",SongURI);
     }
 }
