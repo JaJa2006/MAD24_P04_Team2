@@ -48,6 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tokeninput"
             android:maxLength="5"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:inputType="number"
             android:layout_width="match_parent"

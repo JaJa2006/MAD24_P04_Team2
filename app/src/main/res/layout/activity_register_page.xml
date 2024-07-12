@@ -48,6 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/userinputreg"
             android:maxLength="30"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -71,6 +72,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passinputreg"
             android:maxLength="30"
+            android:maxLines="1"
             android:inputType="textPassword"
             android:textColor="@color/black"
             android:layout_width="match_parent"
@@ -95,6 +97,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailinputreg"
             android:maxLength="50"
+            android:maxLines="1"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
