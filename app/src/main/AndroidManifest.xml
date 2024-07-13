@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Main_Activity"
         tools:targetApi="31">
+        <activity
+            android:name=".Fingerprint_Page"
+            android:exported="false" />
         <activity
             android:name=".Manage_Playlist"
             android:exported="false" />
@@ -64,16 +69,16 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <receiver android:name=".ReminderNotificationReceiver" />
         <receiver android:name=".TimerNotificationReceiver" />
-        <service android:name=".SongForegroundService"
-            android:foregroundServiceType="mediaPlayback"
+
+        <service
+            android:name=".SongForegroundService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback"></service>
     </application>
 
 </manifest>
