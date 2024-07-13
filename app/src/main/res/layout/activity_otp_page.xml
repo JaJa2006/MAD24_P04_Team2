@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         app:startIconDrawable="@drawable/token_icon"
         android:hint="Token"
-        app:helperText="Required*"
+        app:helperText=""
         app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"

@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Random;
 
@@ -47,6 +51,8 @@ public class OTP_Page extends AppCompatActivity {
         Intent receivingEnd = getIntent();
         String Name = receivingEnd.getStringExtra("Username");
 
+        TextInputLayout tokenInputLayout = findViewById(R.id.TokenImputLayout);
+
         //ensures only 1 line of string
         EditText token = findViewById(R.id.tokeninput);
         final int maxLines = token.getMaxLines();
@@ -66,6 +72,11 @@ public class OTP_Page extends AppCompatActivity {
                 if (lines > maxLines) {
                     // Remove the last character to prevent further input
                     token.getText().delete(token.getSelectionStart() - 1, token.getSelectionStart());
+                }
+                if (s.length() > 0) {
+                    tokenInputLayout.setHelperText(null);
+                } else {
+                    tokenInputLayout.setHelperText("Required*");
                 }
             }
         };
@@ -95,8 +106,9 @@ public class OTP_Page extends AppCompatActivity {
                 String tokentyped = tokenn.getText().toString();
 
                 if(randomNumber == null){
-                    //if otp not generated yet display toast
-                    Toast.makeText(OTP_Page.this,"Generate OTP first!",Toast.LENGTH_SHORT).show();
+                    //animate vibration and show error
+                    shakeEditText(token);
+                    tokenInputLayout.setHelperText("Required*");
                 }
                 else{
                     try {
@@ -111,13 +123,15 @@ public class OTP_Page extends AppCompatActivity {
                             finish();
                         }
                         else{
-                            //display if input is not the same as the otp given
-                            Toast.makeText(OTP_Page.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
+                            //animate vibration and show error
+                            shakeEditText(token);
+                            tokenInputLayout.setHelperText("Incorrect OTP*");
                         }
 
                     } catch (NumberFormatException e) {
-                        // If parsing fails, it's not a valid integer
-                        Toast.makeText(OTP_Page.this,"Incorrect OTP", Toast.LENGTH_SHORT).show();
+                        //animate vibration and show error
+                        shakeEditText(token);
+                        tokenInputLayout.setHelperText("Required*");
                     }
                 }
             }
@@ -131,5 +145,12 @@ public class OTP_Page extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    // Method to animate EditText when OTP field is empty
+    private void shakeEditText(EditText editText) {
+        Animation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(7));
+        editText.startAnimation(shake);
     }
 }
