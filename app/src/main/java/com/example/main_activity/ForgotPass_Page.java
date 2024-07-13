@@ -5,9 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,10 +32,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ForgotPass_Page extends AppCompatActivity {
 
+    private ExecutorService emailExecutor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,8 @@ public class ForgotPass_Page extends AppCompatActivity {
         animationDrawable.setEnterFadeDuration(2500);
         animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
+
+        emailExecutor = Executors.newSingleThreadExecutor();
 
         //assign the edittext fields to variables
         EditText usernamez = findViewById(R.id.userinput);
@@ -90,13 +98,12 @@ public class ForgotPass_Page extends AppCompatActivity {
         //assign retrieve xml button to ret variable
         TextView ret = findViewById(R.id.retrieve);
 
-
         ret.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //checks the string in the username field
                 String userstringz = usernamez.getText().toString();
-                if((userstringz.isEmpty()) || userstringz == null){
+                if(userstringz.isEmpty()){
                     //display toast if username is empty
                     Toast.makeText(ForgotPass_Page.this,"Username field is empty", Toast.LENGTH_SHORT).show();
                 }
@@ -110,36 +117,7 @@ public class ForgotPass_Page extends AppCompatActivity {
                         Toast.makeText(ForgotPass_Page.this,"Username does not exist", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                        builder.setMessage("Password is "+useruseruser.getPassword());
-
-                        //when ok button clicked it will bring back to the login page
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Define an Intent to navigate to the NextActivity
-                                Intent intent = new Intent(ForgotPass_Page.this, Login_Page.class);
-
-                                // Start the NextActivity
-                                startActivity(intent);
-                            }
-                        });
-
-                        //go back to login page even if click outside of dialog box
-                        builder.setCancelable(true);
-                        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                // Define an Intent to navigate to the NextActivity
-                                Intent intent = new Intent(ForgotPass_Page.this, Login_Page.class);
-
-                                // Start the NextActivity
-                                startActivity(intent);
-                            }
-                        });
-
-                        //implements the dialog
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+                        sendEmailInBackground(useruseruser.getName(), useruseruser.getEmail(), useruseruser.getPassword());
                     }
                 }
             }
@@ -152,5 +130,25 @@ public class ForgotPass_Page extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void sendEmailInBackground(String userName, String userEmail, String userPassword) {
+        emailExecutor.execute(() -> {
+            try {
+                Mailsender sender = new Mailsender("emailsender933@gmail.com","gicw gzfu ihkt mokg");
+                sender.sendMail("Password retrieval for "+userName, "Your password is: "+userPassword, "emailsender933@gmail.com", userEmail);
+                runOnUiThread(() -> Toast.makeText(ForgotPass_Page.this, "Email sent successfully", Toast.LENGTH_SHORT).show());
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(ForgotPass_Page.this, "Email not sent. Error: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (emailExecutor != null && !emailExecutor.isShutdown()) {
+            emailExecutor.shutdown();
+        }
     }
 }

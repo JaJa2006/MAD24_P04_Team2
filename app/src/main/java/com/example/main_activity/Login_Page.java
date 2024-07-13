@@ -51,7 +51,6 @@ public class Login_Page extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
 
-        //FirebaseApp.initializeApp(this);
 
         //assign the edittext fields to variables
         EditText username = findViewById(R.id.usernameImputEdit);
