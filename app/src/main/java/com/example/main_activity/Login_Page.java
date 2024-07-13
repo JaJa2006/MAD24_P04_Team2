@@ -8,6 +8,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,6 +55,8 @@ public class Login_Page extends AppCompatActivity {
         animationDrawable.start();
 
 
+        TextInputLayout unInputLayout = findViewById(R.id.usernameImputLayout);
+        TextInputLayout paInputLayout = findViewById(R.id.passwordImputLayout);
         //assign the edittext fields to variables
         EditText username = findViewById(R.id.usernameImputEdit);
         EditText password = findViewById(R.id.passwordImputEdit);
@@ -83,18 +88,47 @@ public class Login_Page extends AppCompatActivity {
                     // Remove the last character to prevent further input
                     username.getText().delete(username.getSelectionStart() - 1, username.getSelectionStart());
                 }
+                if (s.length() > 0) {
+                    unInputLayout.setHelperText(null);
+                } else {
+                    unInputLayout.setHelperText("Required*");
+                }
+            }
+        };
+        TextWatcher textWatcher1 = new TextWatcher() {
 
-                int linesOther = password.getLineCount();
-                if (linesOther > pmaxLines) {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //checks whenever the text field is changed
+                //ensures that the text never goes beyond 1 line
+                //ensures no overflowing up or down
+
+                //this checks after text is changed
+                //the number of lines in edittext field
+                int lines = password.getLineCount();
+                if (lines > pmaxLines) {
                     // Remove the last character to prevent further input
                     password.getText().delete(password.getSelectionStart() - 1, password.getSelectionStart());
+                }
+                if (s.length() > 0) {
+                    paInputLayout.setHelperText(null);
+                } else {
+                    paInputLayout.setHelperText("Required*");
                 }
             }
         };
 
         //implements the textwatcher
         username.addTextChangedListener(textWatcher);
-        password.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher1);
 
         //assigns xml button to loginbutton variable
         TextView loginbutton = findViewById(R.id.loginb);
@@ -109,19 +143,24 @@ public class Login_Page extends AppCompatActivity {
                 //checks if both username and password fields are empty
                 //if it is it will toss a toast that states it
                 if((userstring == null || userstring.isEmpty()) && (pwstring == null || pwstring.isEmpty())){
-                    Toast.makeText(Login_Page.this, "Username and Password is empty", Toast.LENGTH_SHORT).show();
+                    shakeEditText(username);
+                    unInputLayout.setHelperText("Required*");
+                    shakeEditText(password);
+                    paInputLayout.setHelperText("Required*");
                 }
                 else {
 
                     //checks if username is empty
                     //if it is it will toss a toast that states it
                     if (userstring == null || userstring.isEmpty()) {
-                        Toast.makeText(Login_Page.this, "Username is empty", Toast.LENGTH_SHORT).show();
+                        shakeEditText(username);
+                        unInputLayout.setHelperText("Required*");
                     }
 
                     //checks if password is empty
                     else if (pwstring == null || pwstring.isEmpty()) {
-                        Toast.makeText(Login_Page.this, "Password is empty", Toast.LENGTH_SHORT).show();
+                        shakeEditText(password);
+                        paInputLayout.setHelperText("Required*");
                     } else {
                         //check if database contains the username
                         DatabaseHandler db = new DatabaseHandler(Login_Page.this);
@@ -131,7 +170,6 @@ public class Login_Page extends AppCompatActivity {
                             if(thedatabase.getPassword().equals(pwstring)){
                                 //check if password is correct
                                 //successfully login if correct
-
                                 // Define an Intent to navigate to the NextActivity
                                 Intent intent = new Intent(Login_Page.this, OTP_Page.class);
                                 intent.putExtra("Username",userstring);
@@ -140,12 +178,15 @@ public class Login_Page extends AppCompatActivity {
 
                             }
                             else{
-                                //create toast if password is incorrect
-                                Toast.makeText(Login_Page.this, "Password is incorrect", Toast.LENGTH_SHORT).show();
+                                //show error message if password is incorrect
+                                shakeEditText(password);
+                                paInputLayout.setHelperText("Incorrect password*");
                             }
                         }
                         else{
-                            Toast.makeText(Login_Page.this, "Cannot find username", Toast.LENGTH_SHORT).show();
+                            //show error message if username is not found
+                            shakeEditText(username);
+                            unInputLayout.setHelperText("Invalid username*");
                         }
 
                     }
@@ -179,5 +220,11 @@ public class Login_Page extends AppCompatActivity {
                 startActivity(intenn22);
             }
         });
+    }
+    private void shakeEditText(EditText editText) {
+        Animation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(7));
+        editText.startAnimation(shake);
     }
 }

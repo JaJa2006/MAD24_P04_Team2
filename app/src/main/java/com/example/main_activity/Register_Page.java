@@ -8,6 +8,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,6 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +50,11 @@ public class Register_Page extends AppCompatActivity {
             return insets;
         });
 
+
+        //assign xml textinputlayout fields to variables
+        TextInputLayout uInputLayout = findViewById(R.id.usernameImputLayout);
+        TextInputLayout pInputLayout = findViewById(R.id.passwordImputLayout);
+        TextInputLayout eInputLayout = findViewById(R.id.emailImputLayout);
 
         //assign xml edittext fields to variables
         EditText username = findViewById(R.id.userinputreg);
@@ -76,17 +85,64 @@ public class Register_Page extends AppCompatActivity {
                     // Remove the last character to prevent further input
                     username.getText().delete(username.getSelectionStart() - 1, username.getSelectionStart());
                 }
+                if (s.length() > 0) {
+                    uInputLayout.setHelperText(null);
+                } else {
+                    uInputLayout.setHelperText("Required*");
+                }
+            }
+        };
+        TextWatcher textWatcher1 = new TextWatcher() {
+            //necessary to put beforetextchanged and ontextchanged else
+            //it wont work
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-                int linesOther = password.getLineCount();
-                if (linesOther > pmaxLines) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            //aftertextchanged is active every time the edittext field is editted
+            @Override
+            public void afterTextChanged(Editable s) {
+                //get current number of lines
+                int lines = password.getLineCount();
+                if (lines > pmaxLines) {
                     // Remove the last character to prevent further input
                     password.getText().delete(password.getSelectionStart() - 1, password.getSelectionStart());
                 }
+                if (s.length() > 0) {
+                    pInputLayout.setHelperText(null);
+                } else {
+                    pInputLayout.setHelperText("Required*");
+                }
+            }
+        };
+        TextWatcher textWatcher2 = new TextWatcher() {
+            //necessary to put beforetextchanged and ontextchanged else
+            //it wont work
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-                int Thelinez = emaila.getLineCount();
-                if (Thelinez > emaxLines) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            //aftertextchanged is active every time the edittext field is editted
+            @Override
+            public void afterTextChanged(Editable s) {
+                //get current number of lines
+                int lines = emaila.getLineCount();
+                if (lines > emaxLines) {
                     // Remove the last character to prevent further input
                     emaila.getText().delete(emaila.getSelectionStart() - 1, emaila.getSelectionStart());
+                }
+                if (s.length() > 0) {
+                    eInputLayout.setHelperText(null);
+                } else {
+                    eInputLayout.setHelperText("Required*");
                 }
             }
         };
@@ -96,8 +152,8 @@ public class Register_Page extends AppCompatActivity {
 
         //implement the textwatcher
         username.addTextChangedListener(textWatcher);
-        password.addTextChangedListener(textWatcher);
-        emaila.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher1);
+        emaila.addTextChangedListener(textWatcher2);
 
         //assign xml button createbtn to btnreg variable
         TextView btnreg = findViewById(R.id.createbtn);
@@ -113,50 +169,69 @@ public class Register_Page extends AppCompatActivity {
                 //checking all test cases
                 //check if edittext fields are empty
                 if((userstring == null || userstring.isEmpty()) && (pwstring == null || pwstring.isEmpty()) && (emailstring == null || emailstring.isEmpty())){
-                    Toast.makeText(Register_Page.this, "All fields are empty", Toast.LENGTH_SHORT).show();
+                    shakeEditText(username);
+                    uInputLayout.setHelperText("Required*");
+                    shakeEditText(emaila);
+                    eInputLayout.setHelperText("Required*");
+                    shakeEditText(password);
+                    pInputLayout.setHelperText("Required*");
                 }
                 else {
                     //check if username and password is empty
                     if ((userstring == null || userstring.isEmpty()) && (pwstring == null || pwstring.isEmpty())) {
-                        Toast.makeText(Register_Page.this, "Username and password is empty", Toast.LENGTH_SHORT).show();
+                        shakeEditText(username);
+                        uInputLayout.setHelperText("Required*");
+                        shakeEditText(password);
+                        pInputLayout.setHelperText("Required*");
                     }
                     //check if password and email is empty
                     else if ((pwstring == null || pwstring.isEmpty()) && (emailstring == null || emailstring.isEmpty())) {
-                        Toast.makeText(Register_Page.this, "Password and email is empty", Toast.LENGTH_SHORT).show();
+                        shakeEditText(emaila);
+                        eInputLayout.setHelperText("Required*");
+                        shakeEditText(password);
+                        pInputLayout.setHelperText("Required*");
                     }
                     //check if username and email is empty
                     else if ((userstring == null || userstring.isEmpty()) && (emailstring == null || emailstring.isEmpty())) {
-                        Toast.makeText(Register_Page.this, "Username and email is empty", Toast.LENGTH_SHORT).show();
+                        shakeEditText(username);
+                        uInputLayout.setHelperText("Required*");
+                        shakeEditText(emaila);
+                        eInputLayout.setHelperText("Required*");
                     }
                     //if no 2 fields are empty move on to individual fields
                     else {
                         //check if username is empty
                         if(userstring == null || userstring.isEmpty()){
-                            Toast.makeText(Register_Page.this, "Username is empty", Toast.LENGTH_SHORT).show();
+                            shakeEditText(username);
+                            uInputLayout.setHelperText("Required*");
                         }
                         //check if password is empty
                         else if(pwstring == null || pwstring.isEmpty()){
-                            Toast.makeText(Register_Page.this, "Password is empty", Toast.LENGTH_SHORT).show();
+                            shakeEditText(password);
+                            pInputLayout.setHelperText("Required*");
                         }
                         //check if email is empty
                         else if(emailstring == null || emailstring.isEmpty()){
-                            Toast.makeText(Register_Page.this, "Email is empty", Toast.LENGTH_SHORT).show();
+                            shakeEditText(emaila);
+                            eInputLayout.setHelperText("Required*");
                         }
                         else {
                             DatabaseHandler db = new DatabaseHandler(Register_Page.this);
                             User theusertaken = db.checkuser(userstring);
 
-                            //verifies if email address is in correct format
-                            //if it is not correct format it will enter if statement
-                            if(!Patterns.EMAIL_ADDRESS.matcher(emailstring).matches()){
-                                Toast.makeText(Register_Page.this, "Email is not valid", Toast.LENGTH_SHORT).show();
-                            }
                             // email can be reusable it does not have to be unique
                             //username to be used as primary key
-                            else if(theusertaken != null)
+                            if(theusertaken != null)
                             {
                                 //create toast if username in database
-                                Toast.makeText(Register_Page.this, "Username is taken", Toast.LENGTH_SHORT).show();
+                                shakeEditText(username);
+                                uInputLayout.setHelperText("Username is taken");
+                            }
+                            //verifies if email address is in correct format
+                            //if it is not correct format it will enter if statement
+                            else if(!Patterns.EMAIL_ADDRESS.matcher(emailstring).matches()){
+                                shakeEditText(emaila);
+                                eInputLayout.setHelperText("Invalid email address");
                             }
                             else {
                                 //create account if username available
@@ -199,5 +274,11 @@ public class Register_Page extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    private void shakeEditText(EditText editText) {
+        Animation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(7));
+        editText.startAnimation(shake);
     }
 }

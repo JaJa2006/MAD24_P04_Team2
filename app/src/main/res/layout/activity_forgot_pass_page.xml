@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         app:startIconDrawable="@drawable/person_icon"
         android:hint="Username"
-        app:helperText="Required*"
+        app:helperText=""
         app:endIconMode="clear_text"
         app:helperTextTextColor="@color/red"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +78,8 @@
         android:src="@drawable/back_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 
