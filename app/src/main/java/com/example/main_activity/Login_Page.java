@@ -171,7 +171,7 @@ public class Login_Page extends AppCompatActivity {
                                 //check if password is correct
                                 //successfully login if correct
                                 // Define an Intent to navigate to the NextActivity
-                                Intent intent = new Intent(Login_Page.this, OTP_Page.class);
+                                Intent intent = new Intent(Login_Page.this, MainActivity.class);
                                 intent.putExtra("Username",userstring);
                                 intent.putExtra("Useremail", thedatabase.getEmail());
                                 // Start the NextActivity
