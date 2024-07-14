@@ -62,6 +62,7 @@ public class ForgotPass_Page extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
 
+        //to send email
         emailExecutor = Executors.newSingleThreadExecutor();
 
         //assign the edittext fields to variables

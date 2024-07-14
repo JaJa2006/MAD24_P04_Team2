@@ -31,9 +31,11 @@ public class Mailsender extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);
     }
 
+    //send the email
     public synchronized void sendMail(String subject, String body, String sender, String recipient) throws Exception {
         MimeMessage message = new MimeMessage(session);
         DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+        //set details of email
         message.setSender(new InternetAddress(sender));
         message.setSubject(subject);
         message.setDataHandler(handler);

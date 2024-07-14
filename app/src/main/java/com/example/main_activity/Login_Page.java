@@ -173,6 +173,7 @@ public class Login_Page extends AppCompatActivity {
                                 // Define an Intent to navigate to the NextActivity
                                 Intent intent = new Intent(Login_Page.this, OTP_Page.class);
                                 intent.putExtra("Username",userstring);
+                                intent.putExtra("Useremail", thedatabase.getEmail());
                                 // Start the NextActivity
                                 startActivity(intent);
 
