@@ -8,6 +8,35 @@
     tools:context=".Fingerprint_Page"
     android:background="@drawable/gradient_list">
 
+    <TextView
+        android:id="@+id/logintologin"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_outline2"
+        android:gravity="center"
+        android:text="Login"
+        android:textColor="#025B81"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintBottom_toTopOf="@+id/logintologin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

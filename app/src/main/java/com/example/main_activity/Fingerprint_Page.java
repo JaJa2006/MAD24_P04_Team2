@@ -3,6 +3,7 @@ package com.example.main_activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -20,7 +21,7 @@ public class Fingerprint_Page extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fingerprint_page); // Updated to correct layout file
+        setContentView(R.layout.activity_fingerprint_page);
 
         // Initialize executor
         executor = ContextCompat.getMainExecutor(this);
@@ -32,7 +33,6 @@ public class Fingerprint_Page extends AppCompatActivity {
                 super.onAuthenticationError(errorCode, errString);
                 if (errorCode == BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
                     // User clicked the "Cancel" button, exit the app
-                    finish();
                 } else if (errorCode == BiometricPrompt.ERROR_NO_BIOMETRICS) {
                     // No biometrics enrolled, redirect to settings
                     AlertDialog.Builder builder = new AlertDialog.Builder(Fingerprint_Page.this)
@@ -46,8 +46,6 @@ public class Fingerprint_Page extends AppCompatActivity {
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
-                } else {
-                    showToast("Authentication error: " + errString);
                 }
             }
 
@@ -72,7 +70,8 @@ public class Fingerprint_Page extends AppCompatActivity {
                 .setNegativeButtonText("Cancel")
                 .build();
 
-        authenticateWithFingerprint();
+        TextView authenticateButton = findViewById(R.id.logintologin);
+        authenticateButton.setOnClickListener(v -> authenticateWithFingerprint());
     }
 
     private void authenticateWithFingerprint() {
