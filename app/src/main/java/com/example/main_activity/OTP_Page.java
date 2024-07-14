@@ -1,9 +1,11 @@
 package com.example.main_activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -25,9 +27,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OTP_Page extends AppCompatActivity {
 
+    private String greyotp;
+    private ExecutorService emailExecutor;
     //define variable randomNumber
     private Integer randomNumber;
     @Override
@@ -47,9 +53,13 @@ public class OTP_Page extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(5000);
         animationDrawable.start();
 
+        //to send email
+        emailExecutor = Executors.newSingleThreadExecutor();
+
         // recieve intent to get username
         Intent receivingEnd = getIntent();
         String Name = receivingEnd.getStringExtra("Username");
+        String Email = receivingEnd.getStringExtra("Useremail");
 
         TextInputLayout tokenInputLayout = findViewById(R.id.TokenImputLayout);
 
@@ -89,12 +99,15 @@ public class OTP_Page extends AppCompatActivity {
         otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random random = new Random();
-                //picks random number between 0 and 90000, excluding 90000
-                //by adding 10000 the number will always be 5 digits
-                randomNumber = random.nextInt(90000) + 10000;
+                if(greyotp == null){
+                    Random random = new Random();
+                    //picks random number between 0 and 90000, excluding 90000
+                    //by adding 10000 the number will always be 5 digits
+                    randomNumber = random.nextInt(90000) + 10000;
 
-                Toast.makeText(OTP_Page.this, "OTP: " + randomNumber, Toast.LENGTH_LONG).show();
+                    sendEmailInBackground(randomNumber.toString(), Name, Email);
+                    greyotp = "greyed";
+                }
             }
         });
 
@@ -146,11 +159,70 @@ public class OTP_Page extends AppCompatActivity {
             }
         });
     }
+
+    //to send email in background
+    private void sendEmailInBackground(String otp, String userName, String Email) {
+        TextView otpbutton = findViewById(R.id.otpnew);
+        //loading screen
+        ProgressDialog progressDialog = new ProgressDialog(OTP_Page.this);
+        progressDialog.setMessage("Sending email...");
+        progressDialog.setCancelable(false); // Prevent dismiss by tapping outside of the dialog
+        progressDialog.show();
+        emailExecutor.execute(() -> {
+            try {
+                Mailsender sender = new Mailsender("emailsender933@gmail.com","gicw gzfu ihkt mokg");
+                sender.sendMail("Password retrieval for "+userName, "User "+userName+", your otp is: "+otp, "emailsender933@gmail.com", Email);
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    //start timer
+                    start30SecondTimer();
+                    //change button color to grayed out
+                    otpbutton.setTextColor(Color.parseColor("#FF474849"));
+                    otpbutton.setBackground(getDrawable(R.drawable.button_grayed));
+                    Toast.makeText(OTP_Page.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    Toast.makeText(OTP_Page.this, "Email not sent. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (emailExecutor != null && !emailExecutor.isShutdown()) {
+            emailExecutor.shutdown();
+        }
+    }
     // Method to animate EditText when OTP field is empty
     private void shakeEditText(EditText editText) {
         Animation shake = new TranslateAnimation(0, 10, 0, 0);
         shake.setDuration(500);
         shake.setInterpolator(new CycleInterpolator(7));
         editText.startAnimation(shake);
+    }
+    private void start30SecondTimer() {
+        TextView timerTextView = findViewById(R.id.timerTextView);
+        TextView otp = findViewById(R.id.otpnew);
+
+        //make timer visible
+        timerTextView.setVisibility(View.VISIBLE);
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                // Update the text view with the remaining seconds
+                timerTextView.setText(""+millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timerTextView.setVisibility(View.INVISIBLE);
+                otp.setTextColor(Color.parseColor("#025B81"));
+                otp.setBackground(getDrawable(R.drawable.button_outline));
+                greyotp = null;
+            }
+        }.start();
     }
 }
