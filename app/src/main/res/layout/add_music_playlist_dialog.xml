@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:hint="Playlist Name"
         app:counterEnabled="true"
+        app:helperText=""
+        app:helperTextTextColor="@color/red"
         app:counterMaxLength="20"
         android:layout_marginStart="24sp"
         android:layout_marginEnd="24sp">

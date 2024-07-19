@@ -4,7 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,12 +53,15 @@ public class CreateMemo extends AppCompatActivity {
         });
         // get all elements from the xml file
         TextInputLayout memoImputLayout = findViewById(R.id.memoImputLayout);
+        MemoText = findViewById(R.id.etMemo);
+        TextInputLayout MemoOptionImputLayout = findViewById(R.id.MemoOptionImputLayout);
         MaterialAutoCompleteTextView MemoInput = findViewById(R.id.MemoInput);
         addImage = findViewById(R.id.tvAddImage);
         TextView createMemo = findViewById(R.id.tvCreateMemo);
-        MemoText = findViewById(R.id.etMemo);
         imageAdded = findViewById(R.id.ivAddedImage);
-
+        // set up text watcher
+        textwatcher(memoImputLayout,MemoText);
+        textwatcher(MemoOptionImputLayout,MemoInput);
         // option list
         MemoInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,7 +110,15 @@ public class CreateMemo extends AppCompatActivity {
                     finish();
                 }else if (isTextMemo && MemoText.getText().toString().matches("")) {
                     // if memo is text memo and is empty
-                    Toast.makeText(v.getContext(), "The memo should not be empty", Toast.LENGTH_SHORT).show();
+                    if (MemoText.getText().toString().matches("")) {
+                        shakeEditText(MemoText);
+                        memoImputLayout.setHelperText("Required*");
+                    }
+                    if (MemoInput.getText().toString().matches("")) {
+                        shakeEditText(MemoInput);
+                        MemoOptionImputLayout.setHelperText("Required*");
+                    }
+                    Toast.makeText(v.getContext(), "All fields need to be filled", Toast.LENGTH_SHORT).show();
                 }else if (isTextMemo) {
                     // if memo is text memo and not empty
                     Memo memo = new Memo(MemoText.getText().toString(),"0");
@@ -111,7 +127,15 @@ public class CreateMemo extends AppCompatActivity {
                     dbHandler.addMemo(memo);
                     finish();
                 }else {
-                    Toast.makeText(v.getContext(), "The memo should not be empty", Toast.LENGTH_SHORT).show();
+                    if (MemoText.getText().toString().matches("")) {
+                        shakeEditText(MemoText);
+                        memoImputLayout.setHelperText("Required*");
+                    }
+                    if (MemoInput.getText().toString().matches("")) {
+                        shakeEditText(MemoInput);
+                        MemoOptionImputLayout.setHelperText("Required*");
+                    }
+                    Toast.makeText(v.getContext(), "All fields need to be filled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -145,5 +169,31 @@ public class CreateMemo extends AppCompatActivity {
                     }
                 }
         );
+    }
+    private void shakeEditText(EditText editText) {
+        Animation shake = new TranslateAnimation(0, 10, 0, 0);
+        shake.setDuration(500);
+        shake.setInterpolator(new CycleInterpolator(7));
+        editText.startAnimation(shake);
+    }
+    private void textwatcher(TextInputLayout textInputLayout, EditText editText) {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    textInputLayout.setHelperText("");
+                } else {
+                    textInputLayout.setHelperText("Required*");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+        };
+        editText.addTextChangedListener(textWatcher);
     }
 }

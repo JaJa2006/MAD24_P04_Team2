@@ -52,6 +52,7 @@ public class MusicPlaylistAdapter extends RecyclerView.Adapter<MusicPlaylistView
                 Context context = holder.PlaylistName.getContext();
                 Intent ManagePlaylist = new Intent(context, Manage_Playlist.class);
                 ManagePlaylist.putExtra("PlaylistID",musicPlaylist.PlaylistID);
+                ManagePlaylist.putExtra("PlaylistName",musicPlaylist.PlaylistName);
                 context.startActivity(ManagePlaylist);
             }
         });

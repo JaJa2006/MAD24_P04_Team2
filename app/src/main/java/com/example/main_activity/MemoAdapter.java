@@ -32,7 +32,7 @@ public class MemoAdapter extends RecyclerView.Adapter<MemoViewHolder>{
             holder.MemoText.setText(memo.MemoContent);
             holder.deleteImage.setVisibility(View.GONE);
             holder.MemoImage.setVisibility(View.GONE);
-            holder.MemoImage.setVisibility(View.GONE);
+            holder.Image.setVisibility(View.GONE);
         }else {
             Uri uri;
             uri = Uri.parse(memo.MemoContent);

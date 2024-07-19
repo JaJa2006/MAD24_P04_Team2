@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
     ArrayList<String> data;
+    MediaPlayer myMPlayer;
     int playlistID;
     // playlist adapter to get the data
     public SongListAdapter(MusicPlaylist input, Context context) {
@@ -58,7 +59,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
                     SongURIList = new ArrayList<String>(Arrays.asList(Songnames));
                 }
                 // play the music
-                MediaPlayer myMPlayer = new MediaPlayer();
+                myMPlayer = new MediaPlayer();
                 myMPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
                     myMPlayer.setDataSource(v.getContext(), Uri.parse(SongURIList.get(holder.getAdapterPosition())));
@@ -89,5 +90,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
     public int getItemCount() {
         // get the number of songs
         return data.size();
+    }
+    public void clearMediaPlayer() {
+        if(myMPlayer!=null){
+            myMPlayer.stop();
+            myMPlayer.release(); // clear the memory
+            myMPlayer = null;
+        }
     }
 }

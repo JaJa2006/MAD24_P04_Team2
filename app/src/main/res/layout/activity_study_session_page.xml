@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/ivTimerBG"
         android:layout_width="374dp"
-        android:layout_height="225dp"
+        android:layout_height="300dp"
         android:layout_marginTop="100dp"
         android:src="@drawable/login_page_back"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,27 +83,65 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_timerStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivTimerBG" />
+
+    <TextView
         android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Timer"
         android:textSize="50sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="80dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivTimerBG" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/timeImputLayout"
+        android:id="@+id/TimerOptionInputLayout"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:hint="Select an Option"
+        app:boxCornerRadiusBottomEnd="10sp"
+        app:boxCornerRadiusBottomStart="10sp"
+        app:boxCornerRadiusTopEnd="10sp"
+        app:boxCornerRadiusTopStart="10sp"
+        android:layout_marginTop="50dp"
+        app:endIconMode="dropdown_menu"
+        app:helperText=""
+        app:helperTextTextColor="@color/red"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivTimerBG">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/TimerInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            app:simpleItems="@array/Timer_list" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/timeInputLayout"
         style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:hint="Time in Minutes"
         app:endIconMode="clear_text"
-        app:helperText="Required*"
+        app:helperText=""
         app:helperTextTextColor="@color/red"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="130dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ivTimerBG">
