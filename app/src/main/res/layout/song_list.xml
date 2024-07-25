@@ -6,15 +6,24 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:id="@+id/tvSongIndicator"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:gravity="center|bottom"
+        android:text=""
+        android:textColor="@color/white"
+        android:background="@drawable/song_indicator_good"
+        android:textSize="35sp"/>
+    <TextView
         android:id="@+id/tvSong"
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="35sp"
         android:text="Song" />
     <ImageView
         android:id="@+id/ivDeleteSong"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:src="@drawable/remove_deck" />
 </LinearLayout>

@@ -3,12 +3,16 @@ package com.example.main_activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -31,11 +35,35 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.main_activity.ml.MusicClassifierModel;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.AudioEvent;
+import be.tarsos.dsp.AudioProcessor;
+import be.tarsos.dsp.io.TarsosDSPAudioFormat;
+import be.tarsos.dsp.io.UniversalAudioInputStream;
+import be.tarsos.dsp.mfcc.MFCC;
 
 public class Manage_Playlist extends AppCompatActivity {
 
@@ -44,12 +72,11 @@ public class Manage_Playlist extends AppCompatActivity {
     String StringURI;
     Uri audioUri;
     TextInputEditText SongName;
-
     int PlaylistID;
     String PlaylistName;
     TextView tvPlaylistName;
     SongListAdapter mAdapter;
-
+    ArrayList<float[]> mfccList = new ArrayList<float[]>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +96,12 @@ public class Manage_Playlist extends AppCompatActivity {
             SharedPreferences preferences = getSharedPreferences("ManagePlaylist",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("PlaylistID", PlaylistID);
+            editor.putString("PlaylistName", PlaylistName);
             editor.apply();
         } else {
             SharedPreferences loadPreferences = getSharedPreferences("ManagePlaylist",MODE_PRIVATE);
             PlaylistID = loadPreferences.getInt("PlaylistID",-1);
+            PlaylistName = loadPreferences.getString("PlaylistName","");
         }
         // get the memo from the data base
         MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(Manage_Playlist.this, null, null, 1);
@@ -91,7 +120,6 @@ public class Manage_Playlist extends AppCompatActivity {
         tvPlaylistName = findViewById(R.id.tvPlaylistName);
         tvPlaylistName.setText(PlaylistName);
         ImageView ivBack = findViewById(R.id.ivPlaylistback);
-
         // back button
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,24 +180,69 @@ public class Manage_Playlist extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         try{
-                            // if have result, get image data as an uri
+                            // if have result, get music data as an uri
                             audioUri = result.getData().getData();
                             StringURI = audioUri.toString();
                             if (audioUri.getPath().startsWith("/document/audio:")) {
                                 // It's an audio file
+                                // make the uri persistent and will last
+                                getContentResolver().takePersistableUriPermission(audioUri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                // get the input stream
+                                InputStream inStream = null;
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    inStream = Manage_Playlist.this.getContentResolver().openInputStream(audioUri);
+                                }
+                                // Create an AudioDispatcher using TarsosDSP
+                                int sampleRate = 44100;
+                                int bufferSize = 1024;
+                                int bufferOverlap = 128;
+                                AudioDispatcher dispatcher = new AudioDispatcher(new UniversalAudioInputStream(inStream, new TarsosDSPAudioFormat(sampleRate, bufferSize, 1, true, true)), bufferSize, bufferOverlap);
+                                // Create an MFCC object to compute MFCC coefficients
+                                MFCC mfcc = new MFCC(bufferSize, sampleRate, 20, 50, 300, 3000);;
+                                dispatcher.addAudioProcessor(mfcc);
+                                dispatcher.addAudioProcessor(new AudioProcessor() {
+                                    @Override
+                                    public boolean process(AudioEvent audioEvent) {
+                                        float[] mfccBuffer = mfcc.getMFCC();
+                                        mfccBuffer = Arrays.copyOfRange(mfccBuffer, 0,
+                                                mfccBuffer.length);
+                                        //Storing in arraylist
+                                        mfccList.add(mfccBuffer);
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void processingFinished() {
+                                        // MFCC processing is complete
+                                    }
+                                });
+                                dispatcher.run();
+                                //
+                                float[] meanMfccList = new float[20];
+                                // iterate 20 times as the model need the average values for the 20 mfcc values
+                                for (int i = 0; i < 20; i++) {
+                                    float meanMfcc = 0;
+                                    for (int mfccVal = 0; mfccVal < mfccList.size(); mfccVal++) {
+                                        meanMfcc += mfccList.get(mfccVal)[i];
+                                    }
+                                    meanMfccList[i] = meanMfcc/mfccList.size();
+                                }
+                                // call the model to predict if the song is good for studying and store the outcome into a string
+                                String ModelOutcome = classifyMusic(meanMfccList);
                                 // create database handler to add song
                                 MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(Manage_Playlist.this, null, null, 1);
                                 MusicPlaylist songlist =  dbHandler.getPlaylistFromID(PlaylistID);
                                 if (songlist.SongNames.matches("")) {
                                     songlist.SongNames = SongName.getText().toString();
                                     songlist.SongsURI = StringURI;
+                                    songlist.SongIndicator = ModelOutcome;
                                 } else {
                                     songlist.SongNames += "`"+SongName.getText().toString();
                                     songlist.SongsURI += "`"+StringURI;
+                                    songlist.SongIndicator += "`"+ModelOutcome;
                                 }
-                                // make the uri persistent and will last
-                                getContentResolver().takePersistableUriPermission(audioUri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                dbHandler.AddSong(PlaylistID,songlist.SongsURI,songlist.SongNames);
+                                Log.d("Manage", ""+songlist.SongsURI);
+                                dbHandler.AddSong(PlaylistID,songlist.SongsURI,songlist.SongNames,songlist.SongIndicator);
                                 // refresh the page
                                 Intent refresh = new Intent(Manage_Playlist.this,Manage_Playlist.class);
                                 refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -211,5 +284,42 @@ public class Manage_Playlist extends AppCompatActivity {
         super.onStop();
         mAdapter.clearMediaPlayer(); // calling the method inside the adapter
     }
+    public String classifyMusic(float[] data){
+        int Pos = 0;
+        try {
+            MusicClassifierModel model = MusicClassifierModel.newInstance(Manage_Playlist.this);
 
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 20}, DataType.FLOAT32);
+            ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 20);
+            byteBuffer.order(ByteOrder.nativeOrder());
+            for (int i = 0; i<20; i++) {
+                byteBuffer.putFloat(data[i]);
+            }
+
+            inputFeature0.loadBuffer(byteBuffer);
+
+            // Runs model inference and gets result.
+            MusicClassifierModel.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            float[] confidence = outputFeature0.getFloatArray();
+            // find the index of the class with the biggest confidence
+            float MaxConfidence = 0;
+            for (int i = 0; i<confidence.length;i++) {
+                if (confidence[i] > MaxConfidence) {
+                    MaxConfidence = confidence[i];
+                    Pos = i;
+                }
+
+            }
+            // Releases model resources if no longer used.
+            model.close();
+        } catch (IOException e) {
+            Log.d("M", "Error");
+        }
+        // return the output of the model based on the confidence rate
+        String[] classes = {"bad","medium","good"};
+        return classes[Pos];
+    }
 }
