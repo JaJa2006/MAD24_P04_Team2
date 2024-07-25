@@ -43,11 +43,13 @@ public class SongForegroundService extends Service {
     String duration;
     Handler handler;
     Runnable stopServiceRunnable;
+    String MusicEnabled;
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+        // set up the music player if it is not set up yet
         if (myMPlayer == null) {
             myMPlayer = new MediaPlayer();
             myMPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -72,18 +74,34 @@ public class SongForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // check if music is enabled only make sure to do so only if the values is null
+        if (MusicEnabled == null) {
+            MusicEnabled = intent.getStringExtra("MusicEnabled");
+        }
         duration = intent.getStringExtra("Time");
+        // start the count down to stop the service
         ServiceStopTimer();
+        // set up the music player
         if (myMPlayer == null) {
             myMPlayer = new MediaPlayer();
             myMPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         }
+        // allow for the service to be stopped
         if (intent.getAction() != null) {
             switch (intent.getAction()) {
                 case "STOP":
-                    stopForeground(true);
+                    if (MusicEnabled.matches("1")) {
+                        stopForeground(true);
+                    }
+                    handler.removeCallbacks(stopServiceRunnable);
+                    Log.d("check","done");
                     stopSelf();
                     break;
+            }
+        }
+        // set up all the intent actions for the navigation of the notification
+        if (intent.getAction() != null && MusicEnabled.matches("1")) {
+            switch (intent.getAction()) {
                 case "PREVIOUS":
                     // case to go to the previous song
                     isPlaying = true;
@@ -136,7 +154,8 @@ public class SongForegroundService extends Service {
                     notification();
                     break;
             }
-        } else {
+        } else if (MusicEnabled.matches("1")){
+            // if first time setting up the notification, get all the data required and start the notification
             SongName = intent.getStringExtra("SongNames");
             SongURI = intent.getStringExtra("SongURI");
             if (SongName.matches("")) {
@@ -234,16 +253,28 @@ public class SongForegroundService extends Service {
         }
     }
     public void ServiceStopTimer() {
+        // to stop the service after the timer end
         if (handler == null && stopServiceRunnable == null){
             handler = new Handler();
             stopServiceRunnable = new Runnable() {
                 @Override
                 public void run() {
+                    // create an intent
+                    Intent intent = new Intent(SongForegroundService.this, TimerNotificationReceiver.class);
+                    // create the intent for broadcast
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(SongForegroundService.this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                    // handle exception of sending pending intent
+                    try {
+                        pendingIntent.send();
+                    } catch (PendingIntent.CanceledException e) {
+                        e.printStackTrace();
+                    }
                     // Stop the service and remove notification
                     stopForeground(true);
                     stopSelf();
                 }
             };
+            // delay the runnable by the set amount of time by the user. The runnable will end the service
             handler.postDelayed(stopServiceRunnable, Long.parseLong(duration));
         }
 
@@ -251,6 +282,7 @@ public class SongForegroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        // release the media player when the service end
         if (myMPlayer != null) {
             myMPlayer.release();
             myMPlayer = null;

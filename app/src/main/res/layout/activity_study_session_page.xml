@@ -31,6 +31,16 @@
 
 
     <TextView
+        android:id="@+id/tvTimerInfo"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/timer_info"
+        app:layout_constraintEnd_toEndOf="@+id/ivTimerBG"
+        app:layout_constraintTop_toTopOf="@+id/ivTimerBG" />
+
+    <TextView
         android:id="@+id/tvMusicSectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

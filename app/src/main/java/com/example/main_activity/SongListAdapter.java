@@ -54,8 +54,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
             String [] Songindicator = musicPlaylist.SongIndicator.split("`");
             SongIndicatorList = new ArrayList<String>(Arrays.asList(Songindicator));
         }
-        Log.d("Adapter", ""+musicPlaylist.SongIndicator);
-        Log.d("Adapter", ""+holder.getAdapterPosition());
         // set the music playlist data to the recycler view
         holder.Song.setText(SongName);
         // set the song indicator

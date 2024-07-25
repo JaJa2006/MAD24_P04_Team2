@@ -3,6 +3,7 @@ package com.example.main_activity;
 import java.util.ArrayList;
 
 public class MusicPlaylist {
+    // class for the music playlist
     public int PlaylistID;
     public String PlaylistName;
     public String SongsURI;
