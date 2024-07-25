@@ -29,6 +29,8 @@ public class MusicPlaylistAdapter extends RecyclerView.Adapter<MusicPlaylistView
         MusicPlaylist musicPlaylist = data.get(position);
         // set the music playlist data to the recycler view
         holder.PlaylistName.setText(musicPlaylist.PlaylistName);
+        // set the check of playlist
+        holder.PlaylistSelect.setChecked(musicPlaylist.Selected.matches("1"));
         // handle deleting of playlist text
         holder.DeletePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override

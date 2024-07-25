@@ -16,6 +16,7 @@ import android.os.CountDownTimer;
 import android.se.omapi.Session;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -55,6 +56,7 @@ public class StudySessionPage extends AppCompatActivity {
     private TextView tvStart;
     private TextView tvEnd;
     private TextView tvTimer;
+    private TextView TimerInfo;
     private CountDownTimer timer;
     private long duration;
     private long endTime;
@@ -74,11 +76,13 @@ public class StudySessionPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        // to clear the data base
         //StudySessionPage.this.deleteDatabase("PlaylistDB.db");
         // get all the elements from the xml
         etMinutes = findViewById(R.id.et_minutes);
         timeInputLayout = findViewById(R.id.timeInputLayout);
         TimerOptionInputLayout = findViewById(R.id.TimerOptionInputLayout);
+        TimerInfo = findViewById(R.id.tvTimerInfo);
         tvStart = findViewById(R.id.tvStart);
         tvEnd = findViewById(R.id.tvEnd);
         tvTimer = findViewById(R.id.tv_timer);
@@ -91,6 +95,7 @@ public class StudySessionPage extends AppCompatActivity {
         TextView tvCreatePlaylist = findViewById(R.id.tvCreatePlaylist);
         MaterialAutoCompleteTextView TimerInput = findViewById(R.id.TimerInput);
 
+        // set the status to blank first
         tvTimerStatus.setText("");
 
         // back button to go back to the main activity page
@@ -105,10 +110,61 @@ public class StudySessionPage extends AppCompatActivity {
         textwatcher(timeInputLayout, etMinutes);
         textwatcher(TimerOptionInputLayout, TimerInput);
 
+        // Set timer info button to show what the timer method is about
+        TimerInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message="";
+                String title="";
+                // set the different message for the different timer
+                if (TimerTypeSelected) {
+                    switch (TimerType) {
+                        case 0:
+                            title = ": Regular Timer";
+                            message = "Regular Timer For Study";
+                            break;
+                        case 1:
+                            title = ": Pomodoro Timer";
+                            message = "Pomodoro Timer For 25 Min Study 5 Min Study Per Repetition";
+                            break;
+                        case 2:
+                            title = ": 52–17 Timer";
+                            message = "52–17 Timer For 52 Min Study 17 Min Study Per Repetition";
+                            break;
+                        case 3:
+                            title = ": 90-Minute Focus Timer";
+                            message = "90-Minute Focus Timer For 60 Min Study 30 Min Study Per Repetition";
+                            break;
+                        case 4:
+                            title = ": 1–3–5 Timer";
+                            message = "1–3–5 Timer For 60 Min for 1 Big Task, 30 Min for 3 Medium Task, 15 Min for 5 Small Task";
+                            break;
+                    }
+                } else {
+                    // if there is not timer selected
+                    message = "No timer selected, Please select a timer to see the info";
+                }
+
+                // create the alert
+                AlertDialog alertDialog = new MaterialAlertDialogBuilder(StudySessionPage.this)
+                        .setTitle("Timer Info"+title)
+                        .setMessage(message)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+                // show the alert
+                alertDialog.show();
+            }
+        });
+
         // Timer option list
         TimerInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // set the view of the timer for the respective timer type
                 switch (position) {
                     case 0:
                         TimerType = 0;
@@ -158,9 +214,11 @@ public class StudySessionPage extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (PlaylistName.getText().toString().matches("")) {
+                                    // if it is playlist name is empty
                                     PlaylistNameInputLayout.setHelperText("Required*");
                                     Toast.makeText(v.getContext(), "Please enter playlist name", Toast.LENGTH_SHORT).show();
                                 } else if (PlaylistName.getText().toString().contains("`")) {
+                                    // if playlist contains delimiter
                                     Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
                                 } else {
                                     // if playlist name is not empty
@@ -180,6 +238,7 @@ public class StudySessionPage extends AppCompatActivity {
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                // set the cancel button to close the dialog
                                 dialog.dismiss();
                             }
                         }).create();
@@ -231,12 +290,14 @@ public class StudySessionPage extends AppCompatActivity {
                             duration = TimeUnit.MINUTES.toMillis(105);
                             break;
                     }
+                    // set the layout for timer start
                     tvStart.setBackgroundResource(R.drawable.button_unactive);
                     tvEnd.setBackgroundResource(R.drawable.button_outline);
                     tvEnd.setTextColor(Color.parseColor("#025B81"));
                     tvTimer.setVisibility(View.VISIBLE);
                     timeInputLayout.setVisibility(View.GONE);
                     TimerOptionInputLayout.setVisibility(View.GONE);
+                    TimerInfo.setVisibility(View.GONE);
                     tvStart.setEnabled(false);
                     tvEnd.setEnabled(true);
                     // function to start timer
@@ -245,7 +306,7 @@ public class StudySessionPage extends AppCompatActivity {
                     // Initialize Notification Channel
                     createNotificationChannel();
                     // Schedule Alarm
-                    SessionAlarm.scheduleAlarm(v.getContext(),duration);
+                    //SessionAlarm.scheduleAlarm(v.getContext(),duration);
                     // get the song data
                     String SongName;
                     String SongURI;
@@ -258,8 +319,16 @@ public class StudySessionPage extends AppCompatActivity {
                     }
                     // start foreground service for music player
                     if (SongName.matches("") || SongURI.matches("")) {
-                    } else {
+                        // Start without music
                         Intent foregroundService = new Intent(StudySessionPage.this,SongForegroundService.class);
+                        foregroundService.putExtra("Time",""+duration);
+                        foregroundService.putExtra("MusicEnabled","0");
+                        startService(foregroundService);
+                        serviceStart = true;
+                    } else {
+                        // start with music
+                        Intent foregroundService = new Intent(StudySessionPage.this,SongForegroundService.class);
+                        foregroundService.putExtra("MusicEnabled","1");
                         foregroundService.putExtra("SongNames",SongName);
                         foregroundService.putExtra("SongURI",SongURI);
                         foregroundService.putExtra("SongIndicators",SongURI);
@@ -281,7 +350,6 @@ public class StudySessionPage extends AppCompatActivity {
                             SongForegroundService.class).setAction("STOP"), PendingIntent.FLAG_IMMUTABLE);
                     // handle exception of sending pending intent
                     try {
-
                         pendingIntent.send();
                     } catch (PendingIntent.CanceledException e) {
                         e.printStackTrace();
@@ -297,12 +365,13 @@ public class StudySessionPage extends AppCompatActivity {
                 tvTimer.setVisibility(View.GONE);
                 timeInputLayout.setVisibility(View.VISIBLE);
                 TimerOptionInputLayout.setVisibility(View.VISIBLE);
+                TimerInfo.setVisibility(View.VISIBLE);
                 tvStart.setEnabled(true);
                 tvEnd.setEnabled(false);
                 // cancel timer
                 timer.cancel();
                 // cancel alarm
-                SessionAlarm.cancelAlarm(v.getContext());
+                //SessionAlarm.cancelAlarm(v.getContext());
             }
         });
     }
@@ -367,6 +436,10 @@ public class StudySessionPage extends AppCompatActivity {
                 tvStart.setEnabled(true);
                 tvEnd.setEnabled(false);
                 timer.cancel();
+                tvStart.setBackgroundResource(R.drawable.button);
+                tvEnd.setBackgroundResource(R.drawable.button_outline_unactive);
+                tvEnd.setTextColor(Color.parseColor("#FF939495"));
+                TimerInfo.setVisibility(View.VISIBLE);
                 Toast.makeText(StudySessionPage.this, "Time's up!", Toast.LENGTH_SHORT).show();
             }
         };
@@ -395,12 +468,12 @@ public class StudySessionPage extends AppCompatActivity {
     protected void onStart() {
         // when the activity starts get the shared preference values for the duration and if the timer was running before
         SharedPreferences preferences = getSharedPreferences("prefs",MODE_PRIVATE);
-        TimerType = preferences.getInt("TimerType",0);
+        TimerType = preferences.getInt("TimerType",-1);
         duration = preferences.getLong("millisleft",60000);
         timerRunning = preferences.getBoolean("timerRunning",false);
         // check if the timer was running before
         if (timerRunning) {
-            // set colour
+            // set colour and info
             tvStart.setBackgroundResource(R.drawable.button_unactive);
             tvEnd.setBackgroundResource(R.drawable.button_outline);
             tvEnd.setTextColor(Color.parseColor("#025B81"));
@@ -417,6 +490,7 @@ public class StudySessionPage extends AppCompatActivity {
                 tvStart.setBackgroundResource(R.drawable.button);
                 tvEnd.setBackgroundResource(R.drawable.button_outline_unactive);
                 tvEnd.setTextColor(Color.parseColor("#FF939495"));
+                TimerInfo.setVisibility(View.VISIBLE);
             } else {
                 // if timer is still running
                 // start the timer with the amount of time left
@@ -427,6 +501,7 @@ public class StudySessionPage extends AppCompatActivity {
                 tvEnd.setEnabled(true);
                 startTimer();
                 timer.start();
+                TimerInfo.setVisibility(View.GONE);
             }
         }
         super.onStart();
@@ -462,12 +537,14 @@ public class StudySessionPage extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+    // to shake the edit text if there is error
     private void shakeEditText(EditText editText) {
         Animation shake = new TranslateAnimation(0, 10, 0, 0);
         shake.setDuration(500);
         shake.setInterpolator(new CycleInterpolator(7));
         editText.startAnimation(shake);
     }
+    // check if the text if null and edit the helper text respectively
     private void textwatcher(TextInputLayout textInputLayout, EditText editText) {
         TextWatcher textWatcher = new TextWatcher() {
             @Override

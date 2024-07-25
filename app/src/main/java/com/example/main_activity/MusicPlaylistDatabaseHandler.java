@@ -88,7 +88,7 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
-        // go to the deck position and delete the memo
+        // go to the playlist position and delete the playlist
         MusicPlaylist Playlist = new MusicPlaylist();
         if (cursor.moveToFirst()) {
             Playlist.PlaylistName = cursor.getString(0);
@@ -110,14 +110,14 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
     // delete playlist
     public boolean DeletePlaylist(MusicPlaylist playlist) {
         boolean result = false;
-        // find the deck from with the deck id
+        // find the playlist from with the playlist id
         String query = "SELECT * FROM " + TABLE_PLAYLIST + " WHERE "
                 + COLUMN_PLAYLIST_ID + " = \""
                 + playlist.PlaylistID + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor = db.rawQuery(query, null);
-        // go to the deck position and delete the memo
+        // go to the music playlist position and delete the playlist
         MusicPlaylist deletePlaylist = new MusicPlaylist();
         if (cursor.moveToFirst()) {
             deletePlaylist.PlaylistID = Integer.parseInt(cursor.getString(5));
@@ -189,22 +189,22 @@ public class MusicPlaylistDatabaseHandler extends SQLiteOpenHelper {
     }
     public void AddSong(int playlistID, String SongsURI, String SongNames, String SongIndicators) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // update the table
+        // put the values
         ContentValues values = new ContentValues();
         values.put(COLUMN_SONGS,SongsURI);
         values.put(COLUMN_SONG_NAMES,SongNames);
         values.put(COLUMN_SONG_INDICATORS,SongIndicators);
-
+        // update the table
         db.update(TABLE_PLAYLIST, values, COLUMN_PLAYLIST_ID + " = " + playlistID, null );
 
         db.close();
     }
     public void ChangeSelected(int playlistID, String Select) {
         SQLiteDatabase db = this.getWritableDatabase();
-        // update the table
+        // put the values
         ContentValues values = new ContentValues();
         values.put(COLUMN_SELECTED,Select);
-
+        // update the table
         db.update(TABLE_PLAYLIST, values, COLUMN_PLAYLIST_ID + " = " + playlistID, null );
 
         db.close();

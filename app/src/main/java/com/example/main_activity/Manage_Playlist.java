@@ -88,17 +88,19 @@ public class Manage_Playlist extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // recieve intent to get song name and song uri
+        // receive intent to get song name and song uri
         Intent receivingEnd = getIntent();
         PlaylistID = receivingEnd.getIntExtra("PlaylistID",-1);
         PlaylistName = receivingEnd.getStringExtra("PlaylistName");
         if (PlaylistID != -1) {
+            // if this is the first time to enter this screen, save the data
             SharedPreferences preferences = getSharedPreferences("ManagePlaylist",MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt("PlaylistID", PlaylistID);
             editor.putString("PlaylistName", PlaylistName);
             editor.apply();
         } else {
+            // if had to go to files to select the song, load the data
             SharedPreferences loadPreferences = getSharedPreferences("ManagePlaylist",MODE_PRIVATE);
             PlaylistID = loadPreferences.getInt("PlaylistID",-1);
             PlaylistName = loadPreferences.getString("PlaylistName","");
@@ -203,6 +205,7 @@ public class Manage_Playlist extends AppCompatActivity {
                                 dispatcher.addAudioProcessor(new AudioProcessor() {
                                     @Override
                                     public boolean process(AudioEvent audioEvent) {
+                                        // process the audio and get float array of 20 elements and add to mfcc list
                                         float[] mfccBuffer = mfcc.getMFCC();
                                         mfccBuffer = Arrays.copyOfRange(mfccBuffer, 0,
                                                 mfccBuffer.length);
@@ -217,7 +220,7 @@ public class Manage_Playlist extends AppCompatActivity {
                                     }
                                 });
                                 dispatcher.run();
-                                //
+                                // initialise the list
                                 float[] meanMfccList = new float[20];
                                 // iterate 20 times as the model need the average values for the 20 mfcc values
                                 for (int i = 0; i < 20; i++) {
@@ -233,15 +236,17 @@ public class Manage_Playlist extends AppCompatActivity {
                                 MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(Manage_Playlist.this, null, null, 1);
                                 MusicPlaylist songlist =  dbHandler.getPlaylistFromID(PlaylistID);
                                 if (songlist.SongNames.matches("")) {
+                                    // if song list is empty
                                     songlist.SongNames = SongName.getText().toString();
                                     songlist.SongsURI = StringURI;
                                     songlist.SongIndicator = ModelOutcome;
                                 } else {
+                                    // if there are already songs in the song list
                                     songlist.SongNames += "`"+SongName.getText().toString();
                                     songlist.SongsURI += "`"+StringURI;
                                     songlist.SongIndicator += "`"+ModelOutcome;
                                 }
-                                Log.d("Manage", ""+songlist.SongsURI);
+                                // add the song into the database
                                 dbHandler.AddSong(PlaylistID,songlist.SongsURI,songlist.SongNames,songlist.SongIndicator);
                                 // refresh the page
                                 Intent refresh = new Intent(Manage_Playlist.this,Manage_Playlist.class);
@@ -259,6 +264,7 @@ public class Manage_Playlist extends AppCompatActivity {
                 }
         );
     }
+    // check the text if there is error
     private void textwatcher(TextInputLayout textInputLayout, EditText editText) {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -287,10 +293,12 @@ public class Manage_Playlist extends AppCompatActivity {
     public String classifyMusic(float[] data){
         int Pos = 0;
         try {
+            // initiate the model
             MusicClassifierModel model = MusicClassifierModel.newInstance(Manage_Playlist.this);
 
-            // Creates inputs for reference.
+            // Creates inputs for reference
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 20}, DataType.FLOAT32);
+            // each float need 4 bytes and there are 20 floats to process so 4 times 20 bytes needed
             ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * 20);
             byteBuffer.order(ByteOrder.nativeOrder());
             for (int i = 0; i<20; i++) {
@@ -299,7 +307,7 @@ public class Manage_Playlist extends AppCompatActivity {
 
             inputFeature0.loadBuffer(byteBuffer);
 
-            // Runs model inference and gets result.
+            // Runs model inference and gets result
             MusicClassifierModel.Outputs outputs = model.process(inputFeature0);
             TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
@@ -316,7 +324,7 @@ public class Manage_Playlist extends AppCompatActivity {
             // Releases model resources if no longer used.
             model.close();
         } catch (IOException e) {
-            Log.d("M", "Error");
+            Log.d("model", "Error");
         }
         // return the output of the model based on the confidence rate
         String[] classes = {"bad","medium","good"};
