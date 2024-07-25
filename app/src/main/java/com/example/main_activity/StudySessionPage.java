@@ -50,7 +50,6 @@ import java.util.concurrent.TimeUnit;
 
 public class StudySessionPage extends AppCompatActivity {
     private EditText etMinutes;
-
     private TextInputLayout timeInputLayout;
     private TextInputLayout TimerOptionInputLayout;
     private TextView tvStart;
@@ -165,7 +164,7 @@ public class StudySessionPage extends AppCompatActivity {
                                     Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
                                 } else {
                                     // if playlist name is not empty
-                                    MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","","0");
+                                    MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","","","0");
                                     // create database handler to add playlist
                                     MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
                                     dbHandler.addPlaylist(playlist);
@@ -263,6 +262,7 @@ public class StudySessionPage extends AppCompatActivity {
                         Intent foregroundService = new Intent(StudySessionPage.this,SongForegroundService.class);
                         foregroundService.putExtra("SongNames",SongName);
                         foregroundService.putExtra("SongURI",SongURI);
+                        foregroundService.putExtra("SongIndicators",SongURI);
                         foregroundService.putExtra("Time",""+duration);
                         startService(foregroundService);
                         serviceStart = true;

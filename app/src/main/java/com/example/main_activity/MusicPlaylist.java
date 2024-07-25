@@ -7,13 +7,15 @@ public class MusicPlaylist {
     public String PlaylistName;
     public String SongsURI;
     public String SongNames;
+    public String SongIndicator;
     public String Selected;
     public MusicPlaylist() {
     }
-    public MusicPlaylist(String PlaylistName,String SongsURI, String SongNames, String Selected) {
+    public MusicPlaylist(String PlaylistName,String SongsURI, String SongNames, String SongIndicator, String Selected) {
         this.PlaylistName = PlaylistName;
         this.SongsURI = SongsURI;
         this.SongNames = SongNames;
+        this.SongIndicator = SongIndicator;
         this.Selected = Selected;
     }
 }

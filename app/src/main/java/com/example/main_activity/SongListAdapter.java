@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,20 +44,37 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListViewHolder>{
     public void onBindViewHolder(SongListViewHolder holder, int position) {
         // get the SongName data
         String SongName = data.get(position);
+        // get the database
+        MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(holder.itemView.getContext(), null, null, 1);
+        MusicPlaylist musicPlaylist = dbHandler.getPlaylistFromID(playlistID);
+        // get the song indicator
+        ArrayList<String> SongIndicatorList = new ArrayList<String>();
+        if (musicPlaylist.SongIndicator.matches("")) {
+        } else {
+            String [] Songindicator = musicPlaylist.SongIndicator.split("`");
+            SongIndicatorList = new ArrayList<String>(Arrays.asList(Songindicator));
+        }
+        Log.d("Adapter", ""+musicPlaylist.SongIndicator);
+        Log.d("Adapter", ""+holder.getAdapterPosition());
         // set the music playlist data to the recycler view
         holder.Song.setText(SongName);
+        // set the song indicator
+        holder.SongIndicator.setBackgroundResource(
+                (SongIndicatorList.get(holder.getAdapterPosition()).matches("good")) ? R.drawable.song_indicator_good :
+                        (SongIndicatorList.get(holder.getAdapterPosition()).matches("medium")) ? R.drawable.song_indicator_medium :
+                                R.drawable.song_indicator_bad);
+        holder.SongIndicator.setText((SongIndicatorList.get(holder.getAdapterPosition()).matches("good")) ? "+" :
+                (SongIndicatorList.get(holder.getAdapterPosition()).matches("medium")) ? "=" : "-");
         // handle the testing of music when you tap the song name
         holder.Song.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // get song uri data
-                MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(v.getContext(), null, null, 1);
-                MusicPlaylist musicPlaylist = dbHandler.getPlaylistFromID(playlistID);
                 ArrayList<String> SongURIList = new ArrayList<String>();
                 if (musicPlaylist.SongsURI.matches("")) {
                 } else {
-                    String [] Songnames = musicPlaylist.SongsURI.split("`");
-                    SongURIList = new ArrayList<String>(Arrays.asList(Songnames));
+                    String [] SongURI = musicPlaylist.SongsURI.split("`");
+                    SongURIList = new ArrayList<String>(Arrays.asList(SongURI));
                 }
                 // play the music
                 myMPlayer = new MediaPlayer();
