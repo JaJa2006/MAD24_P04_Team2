@@ -27,6 +27,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tvDeleteSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/DeleteSong"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivMusicBG"
+        app:layout_constraintTop_toTopOf="@+id/ivMusicBG" />
+
+    <TextView
         android:id="@+id/tvPlaylistName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,10 +54,10 @@
         android:id="@+id/rvManagePlaylist"
         android:layout_width="348dp"
         android:layout_height="450dp"
-        android:layout_marginTop="110dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/ivMusicBG"
+        app:layout_constraintStart_toStartOf="@+id/ivMusicBG"
+        app:layout_constraintTop_toTopOf="@+id/ivMusicBG" />
 
     <TextView
         android:id="@+id/tvAddMusic"

@@ -78,6 +78,7 @@ public class Manage_Playlist extends AppCompatActivity {
     TextView tvPlaylistName;
     SongListAdapter mAdapter;
     ArrayList<float[]> mfccList = new ArrayList<float[]>();
+    private boolean DeleteMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class Manage_Playlist extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        TextView tvDeleteSong = findViewById(R.id.tvDeleteSong);
         // receive intent to get song name and song uri
         Intent receivingEnd = getIntent();
         PlaylistID = receivingEnd.getIntExtra("PlaylistID",-1);
@@ -106,6 +108,17 @@ public class Manage_Playlist extends AppCompatActivity {
             PlaylistID = loadPreferences.getInt("PlaylistID",-1);
             PlaylistName = loadPreferences.getString("PlaylistName","");
         }
+        // set view of delete playlist button
+        tvDeleteSong.setText((DeleteMode)?R.string.ManageSong:R.string.DeleteSong);
+        // manage the visibility of the delete button with this button
+        tvDeleteSong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteMode = !DeleteMode;
+                tvDeleteSong.setText((DeleteMode)?R.string.ManageSong:R.string.DeleteSong);
+                mAdapter.DeleteSongVisibility();
+            }
+        });
         // get the memo from the data base
         MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(Manage_Playlist.this, null, null, 1);
         MusicPlaylist playlist = dbHandler.getPlaylistFromID(PlaylistID);

@@ -65,6 +65,8 @@ public class StudySessionPage extends AppCompatActivity {
     public int TimerType;
     public boolean TimerTypeSelected = false;
     public TextView tvTimerStatus;
+    MusicPlaylistAdapter mAdapter;
+    private boolean DeleteMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,15 +96,26 @@ public class StudySessionPage extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.ivSessionBack);
         TextView tvCreatePlaylist = findViewById(R.id.tvCreatePlaylist);
         MaterialAutoCompleteTextView TimerInput = findViewById(R.id.TimerInput);
+        TextView tvDeletePlaylist = findViewById(R.id.tvDeletePlaylist);
 
         // set the status to blank first
         tvTimerStatus.setText("");
-
         // back button to go back to the main activity page
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        // set view of delete playlist button
+        tvDeletePlaylist.setText((DeleteMode)?R.string.ManagePlaylist:R.string.DeletePlaylist);
+        // manage the visibility of the delete button with this button
+        tvDeletePlaylist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteMode = !DeleteMode;
+                tvDeletePlaylist.setText((DeleteMode)?R.string.ManagePlaylist:R.string.DeletePlaylist);
+                mAdapter.DeletePlaylistVisibility();
             }
         });
 
@@ -144,7 +157,6 @@ public class StudySessionPage extends AppCompatActivity {
                     // if there is not timer selected
                     message = "No timer selected, Please select a timer to see the info";
                 }
-
                 // create the alert
                 AlertDialog alertDialog = new MaterialAlertDialogBuilder(StudySessionPage.this)
                         .setTitle("Timer Info"+title)
@@ -306,7 +318,6 @@ public class StudySessionPage extends AppCompatActivity {
                     // Initialize Notification Channel
                     createNotificationChannel();
                     // Schedule Alarm
-                    //SessionAlarm.scheduleAlarm(v.getContext(),duration);
                     // get the song data
                     String SongName;
                     String SongURI;
@@ -371,7 +382,6 @@ public class StudySessionPage extends AppCompatActivity {
                 // cancel timer
                 timer.cancel();
                 // cancel alarm
-                //SessionAlarm.cancelAlarm(v.getContext());
             }
         });
     }
@@ -510,13 +520,13 @@ public class StudySessionPage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // get the memo from the data base
+        // get the playlist from the data base
         MusicPlaylistDatabaseHandler dbHandler = new MusicPlaylistDatabaseHandler(StudySessionPage.this, null, null, 1);
         ArrayList<MusicPlaylist> playlists = dbHandler.getPlaylist();
         // get the recyclerview from the XML
         RecyclerView recyclerView = findViewById(R.id.rvPlaylist);
         // fill the layout with the information from the data base
-        MusicPlaylistAdapter mAdapter = new MusicPlaylistAdapter(playlists,this);
+        mAdapter = new MusicPlaylistAdapter(playlists,this);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(mLayoutManager);
