@@ -1,5 +1,6 @@
 package com.example.main_activity;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -185,7 +186,10 @@ public class Manage_Playlist extends AppCompatActivity {
                             // if have result, get music data as an uri
                             audioUri = result.getData().getData();
                             StringURI = audioUri.toString();
-                            if (audioUri.getPath().startsWith("/document/audio:")) {
+                            // get the type of the file
+                            ContentResolver contentResolver = Manage_Playlist.this.getContentResolver();
+                            String mimeType = contentResolver.getType(audioUri);
+                            if (mimeType.startsWith("audio")) {
                                 // It's an audio file
                                 // make the uri persistent and will last
                                 getContentResolver().takePersistableUriPermission(audioUri,Intent.FLAG_GRANT_READ_URI_PERMISSION);
