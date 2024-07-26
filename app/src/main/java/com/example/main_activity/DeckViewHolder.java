@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 // viewholder for the recycler view containing the decks
 public class DeckViewHolder extends RecyclerView.ViewHolder{
-    TextView deckName;
+    public TextView deckName;
     ImageView delete;
     public DeckViewHolder(View itemView) {
         super(itemView);

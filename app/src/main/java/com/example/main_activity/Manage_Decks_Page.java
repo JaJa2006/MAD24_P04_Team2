@@ -25,9 +25,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class Manage_Decks_Page extends AppCompatActivity {
+
+    private RecyclerView rvDeckButton;
+    private DeckAdapter deckAdapter;
+    private ArrayList<Deck> deckList;
+    private DeckDatabaseHandler dbHandler;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_manage_decks_page);
+
+        dbHandler = new DeckDatabaseHandler(this);
+        deckList = dbHandler.getDeck();
+
+        rvDeckButton = findViewById(R.id.rvDeckButton);
+        deckAdapter = new DeckAdapter(deckList, this);
+        rvDeckButton.setAdapter(deckAdapter);
+        rvDeckButton.setLayoutManager(new LinearLayoutManager(this));
+
+        findViewById(R.id.tvAddCard).setOnClickListener(v -> {
+            // Handle adding new cards
+        });
+
+        findViewById(R.id.ivManageBack).setOnClickListener(v -> finish());
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_manage_decks_page);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -43,7 +67,7 @@ public class Manage_Decks_Page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // create intent to go to create deck page
-                Intent createDeck = new Intent(v.getContext(),Create_Deck_Page.class);
+                Intent createDeck = new Intent(v.getContext(), Create_Deck_Page.class);
                 v.getContext().startActivity(createDeck);
             }
         });
