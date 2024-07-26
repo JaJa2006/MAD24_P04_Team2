@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 // viewholder for the recycler view containing the decks
 public class DeckViewHolder extends RecyclerView.ViewHolder{
     public TextView deckName;
-    ImageView delete;
+
     public DeckViewHolder(View itemView) {
         super(itemView);
         deckName = itemView.findViewById(R.id.tvDeck);
-        delete = itemView.findViewById(R.id.tvDelete);
+
     }
 }
