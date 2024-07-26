@@ -23,12 +23,12 @@
         android:id="@+id/tvSettingsBannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:text="Notification Settings"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintStart_toEndOf="@+id/ivSettingsBack"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/iv_Notification_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_Notification_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_Notification_back" />
 
     <ImageView
         android:id="@+id/ivSettingsBack"

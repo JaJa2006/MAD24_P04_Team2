@@ -22,12 +22,12 @@
         android:id="@+id/tvBannerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:text="Create Deck"
         android:textColor="@color/white"
         android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/iv_create_deck_back"
+        app:layout_constraintEnd_toEndOf="@+id/iv_create_deck_back"
+        app:layout_constraintStart_toStartOf="@+id/iv_create_deck_back" />
 
 
     <TextView
