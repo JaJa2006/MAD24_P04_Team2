@@ -21,7 +21,7 @@
         android:theme="@style/Theme.Main_Activity"
         tools:targetApi="31" >
         <activity
-            android:name=".Fingerprint_Page"
+            android:name=".Login_Page"
             android:exported="false" />
         <activity
             android:name=".Manage_Playlist"
@@ -57,7 +57,7 @@
             android:name=".Manage_Decks_Page"
             android:exported="false" />
         <activity
-            android:name=".Login_Page"
+            android:name=".Fingerprint_Page"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

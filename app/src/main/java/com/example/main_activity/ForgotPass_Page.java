@@ -152,18 +152,54 @@ public class ForgotPass_Page extends AppCompatActivity {
         progressDialog.show();
         emailExecutor.execute(() -> {
             try {
-                Mailsender sender = new Mailsender("emailsender933@gmail.com","gicw gzfu ihkt mokg");
-                sender.sendMail("Password retrieval for "+userName, "Your password is: "+userPassword, "emailsender933@gmail.com", userEmail);
+                // Create an instance of GmailSender with my email and app-specific password
+                GmailSender sender = new GmailSender("emailsender933@gmail.com", "sauf wlxb zfiq hyxj");
+
+                // Send the email
+                sender.sendMail("emailsender933@gmail.com", userEmail, "Password retrieval for " + userName, "Your password is: " + userPassword);
+
+                // Update the UI after the email is sent
                 runOnUiThread(() -> {
+                    // Dismiss the progress dialog
                     progressDialog.dismiss();
-                    Toast.makeText(ForgotPass_Page.this, "Email sent successfully", Toast.LENGTH_SHORT).show();
+
+                    // Create dialog to show the user that the email has been sent
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setMessage("Password has been sent to your email address.")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Close the current activity
+                                    finish();
+                                }
+                            })
+                            .setCancelable(true) // Allow the dialog to be canceled by clicking outside
+                            .create();
+
+                    // Set a listener to handle the cancel event
+                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            // Close the current activity when the dialog is canceled
+                            finish();
+                        }
+                    });
+                    dialog.show(); // Display the dialog
                 });
             } catch (Exception e) {
+                // show if there is an error
+                Log.e("Email", "Error occurred while sending email: " + e.getMessage(), e);
+
+                // Ensure that the UI updates happen on the main thread even in case of an error
                 runOnUiThread(() -> {
+                    // Dismiss the progress dialog
                     progressDialog.dismiss();
-                    Toast.makeText(ForgotPass_Page.this, "Email not sent. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    // Show a toast message indicating failure
+                    Toast.makeText(ForgotPass_Page.this, "Failed to send email", Toast.LENGTH_SHORT).show();
                 });
             }
+
         });
     }
 
