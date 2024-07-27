@@ -33,6 +33,11 @@ android {
     buildFeatures {
         mlModelBinding = true
     }
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/ASL2.0")
+    }
 }
 
 dependencies {
