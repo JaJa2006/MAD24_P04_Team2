@@ -67,14 +67,22 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 •	The speech would be processed into text using google's api<br>
 •	The text would then be compared to check if it is similar to the answer <br>
 
-Feature 2 - Allow users to listen to music while the study session timer is on (using notification and media player) 
+Feature 2 - Enhanced study timer to allow for music playing in the background and differnt timer techniques (using foreground service with notification, media player and tensorflow ml model) 
 (Jaden)<br>
-•	On the timer page there will be a section allowing users to create playlist<br>
-•	Users will then able to see the playlist they made and add songs to it<br>
+•	On the timer page there will be a section allowing users to create playlist with a dialog<br>
+•	Users will then able to see the playlist they made and add songs to it by clicking it<br>
 •	Users will be able to select the playlist they want to play while the timer is on<br>
-•	When the timer is started, the songs in the selected playlist will be played<br>
-•	A notification will be sent allowing the user to see the timer and the song being played<br>
-•	The notification will also allow users to skip songs or go to the previous song<br>
+•	Users will go to the manage plalist page where they can add songs and delete them<br>
+•	There will be a indicator showing if the song is good for studying to and clicking on the indicator will have more information<br>
+•	The indicator will use tensorflow ml model to predict if the song is good for studying to based on the genre<br>
+•	On the timer page the user can select the type of timer they want and there is a info button on the top right hand conner to tell what the timer type is about. The user will also be able to set the amount of repetition and time for the specific timer they chose<br>
+•	When the timer is started, the songs in the selected playlist will be played using a foreground service<br>
+•	A notification will be sent allowing the user to see the song being played<br>
+•	The notification will also allow users to skip songs or go to the previous song or pause the song<br>
+•	When the timer is up a notification will be sent to the user<br>
+![alt text](Stage2_Feature2(1).png)<br>
+![alt text](Stage2_Feature2(2).png)<br>
+![alt text](Stage2_Feature2(3).png)<br>
 
 Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
 •	There will be a new button on the deck to manage the deck<br>
