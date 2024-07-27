@@ -67,7 +67,7 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 •	The speech would be processed into text using google's api<br>
 •	The text would then be compared to check if it is similar to the answer <br>
 
-Feature 2 - Enhanced study timer to allow for music playing in the background and differnt timer techniques (using foreground service with notification, media player and tensorflow ml model) 
+Feature 2 - Enhanced study timer to allow for music playing in the background and different timer techniques (using foreground service with notification, media player and tensorflow ml model) 
 (Jaden)<br>
 •	On the timer page there will be a section allowing users to create playlist with a dialog<br>
 •	Users will then able to see the playlist they made and add songs to it by clicking it<br>
@@ -91,8 +91,9 @@ Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler
 Feature 4 - Fingerprint login to increase security. (use biometric sensor) (Joshua)<br>
 •	In the log in page the user will be able to use their biometrics to log in to their app<br>
 •	The app will have a memory of what biometric there are and will make sure it is the right one<br>
+•	In the OTP section, they will send an OTP to the user's email based on the one the entered in the account registration page<br>
 
-Feature 5 - Export and import page for back up of the app (Brian)<br>
-•	There will be a button for the user to export to a txt file<br>
-•	There will also be another button for the user to import the txt file only if the file is having the same format<br>
-•	On importing the file, the app will create that deck on the app for the user.<br>
+Feature 5 - Drawable cards (Brian)<br>
+•	The in create card page there will the ability to draw a card<br>
+•	This would allow for users to make cards by drawing on the screen<br>
+•	The drawable card would then be saved to the databased allowing for the user to save the card and see it when they review the deck<br>
