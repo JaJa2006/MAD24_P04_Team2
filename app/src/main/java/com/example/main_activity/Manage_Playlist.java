@@ -164,10 +164,10 @@ public class Manage_Playlist extends AppCompatActivity {
                                 if (SongName.getText().toString().matches("")) {
                                     // if song name is empty
                                     MusicNameInputLayout.setHelperText("Required*");
-                                    Toast.makeText(v.getContext(), "Please enter song name", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), "Please enter song name", Toast.LENGTH_LONG).show();
                                 } else if (SongName.getText().toString().contains("`")) {
                                     // if song name contains the delimiter
-                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_LONG).show();
                                 } else {
                                     // if song name is not empty and does not contain the delimiter
                                     pickAudio();
