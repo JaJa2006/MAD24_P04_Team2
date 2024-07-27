@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.Image;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -211,26 +212,29 @@ public class Manage_Playlist extends AppCompatActivity {
                                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                                     inStream = Manage_Playlist.this.getContentResolver().openInputStream(audioUri);
                                 }
+                                // get the duration of the song
+                                MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+                                mmr.setDataSource(Manage_Playlist.this,audioUri);
+                                String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+                                int Second = Integer.parseInt(durationStr)/1000;
                                 // Create an AudioDispatcher using TarsosDSP
-                                int sampleRate = 44100;
-                                int bufferSize = 1024;
-                                int bufferOverlap = 128;
+                                int sampleRate = 2205*Second;
+                                int bufferSize = 10*Second;
+                                int bufferOverlap = 5*Second;
                                 AudioDispatcher dispatcher = new AudioDispatcher(new UniversalAudioInputStream(inStream, new TarsosDSPAudioFormat(sampleRate, bufferSize, 1, true, true)), bufferSize, bufferOverlap);
                                 // Create an MFCC object to compute MFCC coefficients
-                                MFCC mfcc = new MFCC(bufferSize, sampleRate, 20, 50, 300, 3000);;
+                                MFCC mfcc = new MFCC(bufferSize, sampleRate, 40, 50, 300, sampleRate);
                                 dispatcher.addAudioProcessor(mfcc);
                                 dispatcher.addAudioProcessor(new AudioProcessor() {
                                     @Override
                                     public boolean process(AudioEvent audioEvent) {
                                         // process the audio and get float array of 20 elements and add to mfcc list
                                         float[] mfccBuffer = mfcc.getMFCC();
-                                        mfccBuffer = Arrays.copyOfRange(mfccBuffer, 0,
-                                                mfccBuffer.length);
+                                        mfccBuffer = Arrays.copyOfRange(mfccBuffer, 0,mfccBuffer.length);
                                         //Storing in arraylist
                                         mfccList.add(mfccBuffer);
                                         return true;
                                     }
-
                                     @Override
                                     public void processingFinished() {
                                         // MFCC processing is complete
@@ -242,8 +246,13 @@ public class Manage_Playlist extends AppCompatActivity {
                                 // iterate 20 times as the model need the average values for the 20 mfcc values
                                 for (int i = 0; i < 20; i++) {
                                     float meanMfcc = 0;
-                                    for (int mfccVal = 0; mfccVal < mfccList.size(); mfccVal++) {
-                                        meanMfcc += mfccList.get(mfccVal)[i];
+                                    // if there is not enough values for when the song is too short, replace mean with 0
+                                    try {
+                                        for (int mfccVal = 0; mfccVal < 40; mfccVal++) {
+                                            meanMfcc += mfccList.get(i)[mfccVal];
+                                        }
+                                    }catch (Exception e){
+                                        meanMfcc = 0;
                                     }
                                     meanMfccList[i] = meanMfcc/mfccList.size();
                                 }
