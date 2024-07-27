@@ -228,10 +228,10 @@ public class StudySessionPage extends AppCompatActivity {
                                 if (PlaylistName.getText().toString().matches("")) {
                                     // if it is playlist name is empty
                                     PlaylistNameInputLayout.setHelperText("Required*");
-                                    Toast.makeText(v.getContext(), "Please enter playlist name", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), "Please enter playlist name", Toast.LENGTH_LONG).show();
                                 } else if (PlaylistName.getText().toString().contains("`")) {
                                     // if playlist contains delimiter
-                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(v.getContext(), "Playlist name cannot contain (`)", Toast.LENGTH_LONG).show();
                                 } else {
                                     // if playlist name is not empty
                                     MusicPlaylist playlist = new MusicPlaylist(PlaylistName.getText().toString(),"","","","0");
@@ -272,15 +272,15 @@ public class StudySessionPage extends AppCompatActivity {
                         shakeEditText(etMinutes);
                         timeInputLayout.setHelperText("Required*");
                     }
-                    Toast.makeText(v.getContext(), "Please make sure there are no empty Fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please make sure there are no empty Fields", Toast.LENGTH_LONG).show();
                 } else if ((Integer.parseInt(etMinutes.getText().toString()) < 1 && TimerType == 0) || (Integer.parseInt(etMinutes.getText().toString()) > 60 && TimerType == 0)) {
                     // if time is less than 1 minute or more than 60 minute for TimerType 0
                     shakeEditText(etMinutes);
-                    Toast.makeText(v.getContext(), "Please enter a value between 1 and 60 minutes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please enter a value between 1 and 60 minutes", Toast.LENGTH_LONG).show();
                 } else if ((TimerType < 4 && TimerType > 0) && (Integer.parseInt(etMinutes.getText().toString()) < 1 || Integer.parseInt(etMinutes.getText().toString()) > 5)) {
                     // if the repetition for timer type 1, 2, 3 is less than 1 or more than 10
                     shakeEditText(etMinutes);
-                    Toast.makeText(v.getContext(), "Please enter a value between 1 and 5 repetition", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Please enter a value between 1 and 5 repetition", Toast.LENGTH_LONG).show();
                 } else {
                     // start the timer and set the page to show the timer
                     timerRunning = true;
