@@ -85,6 +85,8 @@ public class Manage_Decks_Page extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // get the deck from the data base
+        deckList = dbHandler.getDeck();
+        deckAdapter.notifyDataSetChanged();
         DeckDatabaseHandler dbHandler = new DeckDatabaseHandler(Manage_Decks_Page.this, null, null, 1);
         ArrayList<Deck> decks = dbHandler.getDeck();
         // get the recyclerview from the XML

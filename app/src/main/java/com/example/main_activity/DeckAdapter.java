@@ -23,18 +23,17 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
-public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
-    ArrayList<Deck> data;
-    //Feature 3 - R
+public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
+
+    private ArrayList<Deck> data;
     private Context context;
     private DeckDatabaseHandler dbHandler;
 
-    // Deck adapter to get the data
+    // Constructor
     public DeckAdapter(ArrayList<Deck> input, Context context) {
         this.data = input;
-        this.dbHandler = new DeckDatabaseHandler(context);
         this.context = context;
-
+        this.dbHandler = new DeckDatabaseHandler(context);
     }
 
     @NonNull
@@ -63,8 +62,7 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
             Intent reviewCardPage = new Intent(context, Review_Card_Page.class);
             reviewCardPage.putExtra("Deck", cards);
             context.startActivity(reviewCardPage);
-
-
+        });
 
         // Setup swipe-to-delete
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -94,15 +92,11 @@ public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
         // Attach ItemTouchHelper to RecyclerView
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(((Manage_Decks_Page) context).findViewById(R.id.rvDeckButton));
-    });
-
-
-    // deck view holder to hold the layout
-
-
     }
+
+
+    @Override
     public int getItemCount() {
         return data.size();
     }
-
 }
