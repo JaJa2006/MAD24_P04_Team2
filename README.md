@@ -67,14 +67,22 @@ Feature 1 - Speech to text for answering questions (Using API from google) (Etha
 •	The speech would be processed into text using google's api<br>
 •	The text would then be compared to check if it is similar to the answer <br>
 
-Feature 2 - Allow users to listen to music while the study session timer is on (using notification and media player) 
+Feature 2 - Enhanced study timer to allow for music playing in the background and different timer techniques (using foreground service with notification, media player and tensorflow ml model) 
 (Jaden)<br>
-•	On the timer page there will be a section allowing users to create playlist<br>
-•	Users will then able to see the playlist they made and add songs to it<br>
+•	On the timer page there will be a section allowing users to create playlist with a dialog<br>
+•	Users will then able to see the playlist they made and add songs to it by clicking it<br>
 •	Users will be able to select the playlist they want to play while the timer is on<br>
-•	When the timer is started, the songs in the selected playlist will be played<br>
-•	A notification will be sent allowing the user to see the timer and the song being played<br>
-•	The notification will also allow users to skip songs or go to the previous song<br>
+•	Users will go to the manage plalist page where they can add songs and delete them<br>
+•	There will be a indicator showing if the song is good for studying to and clicking on the indicator will have more information<br>
+•	The indicator will use tensorflow ml model to predict if the song is good for studying to based on the genre<br>
+•	On the timer page the user can select the type of timer they want and there is a info button on the top right hand conner to tell what the timer type is about. The user will also be able to set the amount of repetition and time for the specific timer they chose<br>
+•	When the timer is started, the songs in the selected playlist will be played using a foreground service<br>
+•	A notification will be sent allowing the user to see the song being played<br>
+•	The notification will also allow users to skip songs or go to the previous song or pause the song<br>
+•	When the timer is up a notification will be sent to the user<br>
+![alt text](Stage2_Feature2(1).png)<br>
+![alt text](Stage2_Feature2(2).png)<br>
+![alt text](Stage2_Feature2(3).png)<br>
 
 Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler views in a fragment.) (Rumaisa)<br>
 •	There will be a new button on the deck to manage the deck<br>
@@ -83,8 +91,9 @@ Feature 3 - Allow users to swipe for deleting and editing cards. (using recycler
 Feature 4 - Fingerprint login to increase security. (use biometric sensor) (Joshua)<br>
 •	In the log in page the user will be able to use their biometrics to log in to their app<br>
 •	The app will have a memory of what biometric there are and will make sure it is the right one<br>
+•	In the OTP section, they will send an OTP to the user's email based on the one the entered in the account registration page<br>
 
-Feature 5 - Export and import page for back up of the app (Brian)<br>
-•	There will be a button for the user to export to a txt file<br>
-•	There will also be another button for the user to import the txt file only if the file is having the same format<br>
-•	On importing the file, the app will create that deck on the app for the user.<br>
+Feature 5 - Drawable cards (Brian)<br>
+•	The in create card page there will the ability to draw a card<br>
+•	This would allow for users to make cards by drawing on the screen<br>
+•	The drawable card would then be saved to the databased allowing for the user to save the card and see it when they review the deck<br>

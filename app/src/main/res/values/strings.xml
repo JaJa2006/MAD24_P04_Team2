@@ -2,4 +2,8 @@
     <string name="app_name">24 Memo</string>
     <string name="ForgotPass"><u>Forgot password?</u></string>
     <string name="SignUp">Don\'t have an account? <u>Sign up</u></string>
+    <string name="DeletePlaylist"><b><u>Delete Playlist</u></b></string>
+    <string name="ManagePlaylist"><b><u>Disable Delete</u></b></string>
+    <string name="DeleteSong"><b><u>Delete Song</u></b></string>
+    <string name="ManageSong"><b><u>Disable Delete</u></b></string>
 </resources>

@@ -8,6 +8,7 @@
     tools:context=".StudySessionPage"
     android:background="@drawable/background_1">
 
+
     <ImageView
         android:id="@+id/ivTimerBG"
         android:layout_width="374dp"
@@ -30,15 +31,37 @@
 
 
     <TextView
+        android:id="@+id/tvTimerInfo"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/timer_info"
+        app:layout_constraintEnd_toEndOf="@+id/ivTimerBG"
+        app:layout_constraintTop_toTopOf="@+id/ivTimerBG" />
+
+    <TextView
         android:id="@+id/tvMusicSectionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Music"
-        android:textSize="30sp"
-        android:textColor="@color/black"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/ivMusicBG"
+        android:layout_marginLeft="20dp"
+        android:text="Music"
+        android:textColor="@color/black"
+        android:textSize="35sp"
         app:layout_constraintStart_toStartOf="@+id/ivMusicBG"
+        app:layout_constraintTop_toTopOf="@+id/ivMusicBG" />
+
+    <TextView
+        android:id="@+id/tvDeletePlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/DeletePlaylist"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/ivMusicBG"
         app:layout_constraintTop_toTopOf="@+id/ivMusicBG" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -71,8 +94,9 @@
         android:text="Timer"
         android:textColor="@color/white"
         android:textSize="40sp"
-        app:layout_constraintStart_toEndOf="@+id/ivSessionBack"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/ivTimerBG"
+        app:layout_constraintEnd_toEndOf="@+id/ivTimerBG"
+        app:layout_constraintStart_toStartOf="@+id/ivTimerBG" />
 
     <ImageView
         android:id="@+id/ivSessionBack"

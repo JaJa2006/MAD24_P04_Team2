@@ -30,10 +30,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        mlModelBinding = true
+    }
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE")
+        exclude("META-INF/ASL2.0")
+    }
 }
 
 dependencies {
-
+    implementation(files("libs/TarsosDSP-Android-2.4.jar"))
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -47,6 +55,8 @@ dependencies {
     implementation("com.sun.mail:android-mail:1.6.5")
     implementation("com.sun.mail:android-activation:1.6.5")
     implementation(libs.firebase.database)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.tensorflow.lite.metadata)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

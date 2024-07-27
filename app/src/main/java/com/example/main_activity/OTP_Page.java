@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
@@ -170,8 +171,8 @@ public class OTP_Page extends AppCompatActivity {
         progressDialog.show();
         emailExecutor.execute(() -> {
             try {
-                Mailsender sender = new Mailsender("emailsender933@gmail.com","gicw gzfu ihkt mokg");
-                sender.sendMail("Password retrieval for "+userName, "User "+userName+", your otp is: "+otp, "emailsender933@gmail.com", Email);
+                GmailSender sender = new GmailSender("emailsender933@gmail.com","sauf wlxb zfiq hyxj");
+                sender.sendMail("emailsender933@gmail.com", Email, "Password retrieval for "+userName, "User "+userName+", your otp is: "+otp);
                 runOnUiThread(() -> {
                     progressDialog.dismiss();
                     //start timer
@@ -184,6 +185,8 @@ public class OTP_Page extends AppCompatActivity {
             } catch (Exception e) {
                 runOnUiThread(() -> {
                     progressDialog.dismiss();
+                    greyotp = null;
+                    Log.d("Email", ""+e.getMessage());
                     Toast.makeText(OTP_Page.this, "Email not sent. Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
             }
