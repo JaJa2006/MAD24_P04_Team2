@@ -17,62 +17,86 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.snackbar.Snackbar;
+import java.util.ArrayList;
+public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder> {
 
-public class DeckAdapter extends RecyclerView.Adapter<DeckViewHolder>{
-    ArrayList<Deck> data;
-    // Deck adapter to get the data
+    private ArrayList<Deck> data;
+    private Context context;
+    private DeckDatabaseHandler dbHandler;
+
+    // Constructor
     public DeckAdapter(ArrayList<Deck> input, Context context) {
         this.data = input;
+        this.context = context;
+        this.dbHandler = new DeckDatabaseHandler(context);
     }
-    // deck view holder to hold the layout
-    public DeckViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+    @NonNull
+    @Override
+    public DeckViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View item = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.deck_list, parent, false);
         return new DeckViewHolder(item);
     }
-    // setting all the buttons of the layout
-    public void onBindViewHolder(DeckViewHolder holder, int position) {
-        // get the deck data
+
+    @Override
+    public void onBindViewHolder(@NonNull DeckViewHolder holder, int position) {
         Deck deck = data.get(position);
-        // set the deck name
         holder.deckName.setText(deck.deckName);
-        // to allow for reviewing cards
-        holder.deckName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // get the get the card list from the deck and convert them into a list of strings
-                ArrayList<String> list = new ArrayList<String>();
-                for (int i = 0;i<deck.Cardlist.size();i++){
-                    String card = deck.Cardlist.get(i).cardName+','+deck.Cardlist.get(i).front+','+deck.Cardlist.get(i).back+','+deck.Cardlist.get(i).cardId;
-                    list.add(card);
-                }
-                // Convert the list of strings into one string
-                String cards = String.join("/",list);
-                // send the string into the reveiw card page
-                Context context = holder.deckName.getContext();
-                Intent ReviewCardPage = new Intent(context, Review_Card_Page.class);
-                ReviewCardPage.putExtra("Deck",cards);
-                context.startActivity(ReviewCardPage);
+
+        holder.deckName.setOnClickListener(v -> {
+            ArrayList<String> list = new ArrayList<>();
+            for (int i = 0; i < deck.Cardlist.size(); i++) {
+                String card = deck.Cardlist.get(i).cardName + ',' +
+                        deck.Cardlist.get(i).front + ',' +
+                        deck.Cardlist.get(i).back + ',' +
+                        deck.Cardlist.get(i).cardId;
+                list.add(card);
             }
+            String cards = String.join("/", list);
+            Intent reviewCardPage = new Intent(context, Review_Card_Page.class);
+            reviewCardPage.putExtra("Deck", cards);
+            context.startActivity(reviewCardPage);
         });
-        // handle deleating of decks
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+
+        // Setup swipe-to-delete
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public void onClick(View v) {
-                // create instant of dbhandler and delete deck from there
-                DeckDatabaseHandler dbHandler = new DeckDatabaseHandler(v.getContext(), null, null, 1);
-                dbHandler.DeleteDeck(deck);
-                // refresh the page
-                Context context = holder.delete.getContext();
-                Intent refresh = new Intent(context, Manage_Decks_Page.class);
-                refresh.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                context.startActivity(refresh);
-                ((Manage_Decks_Page)context).finish();
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
             }
-        });
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                Deck deletedDeck = data.get(position);
+                data.remove(position);
+                notifyItemRemoved(position);
+                dbHandler.DeleteDeck(deletedDeck);
+
+                Snackbar snackbar = Snackbar.make(((Manage_Decks_Page) context).findViewById(android.R.id.content), "Deck deleted", Snackbar.LENGTH_LONG);
+                snackbar.setAction("UNDO", v -> {
+                    data.add(position, deletedDeck);
+                    notifyItemInserted(position);
+                    dbHandler.addDeck(deletedDeck);
+                });
+                snackbar.show();
+            }
+        };
+
+        // Attach ItemTouchHelper to RecyclerView
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(((Manage_Decks_Page) context).findViewById(R.id.rvDeckButton));
     }
+
+
+    @Override
     public int getItemCount() {
         return data.size();
     }
-
 }

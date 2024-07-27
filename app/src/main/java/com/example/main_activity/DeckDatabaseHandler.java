@@ -25,6 +25,11 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
     public DeckDatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
+
+    public DeckDatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
     // crete database table
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -113,4 +118,9 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+    // Method to fetch all decks
+
 }
+
+
