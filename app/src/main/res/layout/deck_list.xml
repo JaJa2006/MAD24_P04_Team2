@@ -28,8 +28,6 @@
         android:src="@drawable/remove_deck"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="@id/tvDeck"
-        app:layout_constraintTop_toTopOf="@id/tvDeck"
-        app:layout_marginEnd="8dp"
-        app:layout_marginTop="8dp" />
+        app:layout_constraintTop_toTopOf="@id/tvDeck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
