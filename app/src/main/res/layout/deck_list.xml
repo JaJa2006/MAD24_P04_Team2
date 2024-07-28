@@ -29,7 +29,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintEnd_toEndOf="@id/tvDeck"
         app:layout_constraintTop_toTopOf="@id/tvDeck"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp" />
+        app:layout_marginEnd="8dp"
+        app:layout_marginTop="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
