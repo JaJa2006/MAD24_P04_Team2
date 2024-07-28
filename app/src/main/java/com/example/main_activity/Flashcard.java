@@ -16,6 +16,12 @@ public class Flashcard {
         this.drawing = drawing;
     }
 
+    public Flashcard(String cardName, String front, String back) {
+        this.cardName = cardName;
+        this.front = front;
+        this.back = back;
+    }
+
     public Flashcard(String cardName, String front, String back, int cardId) {
         this.cardName = cardName;
         this.front = front;

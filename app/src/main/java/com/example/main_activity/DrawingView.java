@@ -61,12 +61,15 @@ public class DrawingView extends View {
                 path.lineTo(x, y);
                 break;
             case MotionEvent.ACTION_UP:
-                this.canvas.drawPath(path, paint);
+                canvas.drawPath(path, paint);
                 path = new Path();
                 paint = new Paint(paint);
                 if (isEraser) {
                     paint.setColor(Color.WHITE);
-                    paint.setStrokeWidth(20f);
+                    paint.setStrokeWidth(20f); // Eraser size
+                } else {
+                    paint.setColor(Color.BLACK);
+                    paint.setStrokeWidth(10f); // Pen size
                 }
                 paths.add(path);
                 paints.add(paint);
@@ -78,20 +81,17 @@ public class DrawingView extends View {
         return true;
     }
 
-    public void setDrawingMode() {
-        isEraser = false;
-        paint.setColor(Color.BLACK);
-        paint.setStrokeWidth(10f);
-    }
-
-    public void setEraserMode() {
-        isEraser = true;
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(20f);
+    public void setEraser(boolean isEraser) {
+        this.isEraser = isEraser;
     }
 
     public Bitmap getBitmap() {
-        return bitmap;
+        Bitmap resultBitmap = Bitmap.createBitmap(bitmap);
+        Canvas resultCanvas = new Canvas(resultBitmap);
+        for (int i = 0; i < paths.size(); i++) {
+            resultCanvas.drawPath(paths.get(i), paints.get(i));
+        }
+        return resultBitmap;
     }
 
     public void clear() {
@@ -102,7 +102,7 @@ public class DrawingView extends View {
         paint = new Paint(paint);
         paths.add(path);
         paints.add(paint);
-        bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(320, 480, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         invalidate();
     }

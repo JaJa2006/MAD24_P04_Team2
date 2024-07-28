@@ -23,8 +23,11 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
     public static final String COLUMN_DECK_CARDS = "cards";
     public static final String COLUMN_DECK_ID = "id";
 
-    public DeckDatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
+    private static final String CARD_DELIMITER = ";;;";
+    private static final String FIELD_DELIMITER = ":::";
+
+    public DeckDatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -46,18 +49,15 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
         values.put(COLUMN_DECK_NAME, deck.deckName);
         ArrayList<String> list = new ArrayList<>();
         for (Flashcard flashcard : deck.Cardlist) {
-            String drawingBase64 = "";
-            if (flashcard.drawing != null) {
-                drawingBase64 = encodeBitmapToBase64(flashcard.drawing);
-            }
-            String card = flashcard.cardName + ',' + flashcard.front + ',' + flashcard.back + ',' + drawingBase64;
+            String encodedBitmap = bitmapToString(flashcard.drawing);
+            String card = flashcard.cardName + FIELD_DELIMITER + flashcard.front + FIELD_DELIMITER + flashcard.back + FIELD_DELIMITER + encodedBitmap;
             list.add(card);
         }
-        String cards = String.join("/", list);
+        String cards = String.join(CARD_DELIMITER, list);
         values.put(COLUMN_DECK_CARDS, cards);
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_DECKS, null, values);
-        Log.d(TAG, "Deck added: " + deck.deckName);
+        Log.d(TAG, "Deck added: " + deck.deckName + " with cards: " + cards);
     }
 
     public ArrayList<Deck> getDeck() {
@@ -70,12 +70,13 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
             Deck deck = new Deck();
             deck.deckName = cursor.getString(0);
             String cardStrings = cursor.getString(1);
+            Log.d(TAG, "Retrieved deck: " + deck.deckName + " with card strings: " + cardStrings);
             ArrayList<Flashcard> flashcards = new ArrayList<>();
-            String[] splitStrings = cardStrings.split("/");
+            String[] splitStrings = cardStrings.split(CARD_DELIMITER);
             ArrayList<String> list = new ArrayList<>(Arrays.asList(splitStrings));
             for (String s : list) {
                 try {
-                    String[] cardvalues = s.split(",", 4); // Split into 4 parts to avoid issues with embedded commas
+                    String[] cardvalues = s.split(FIELD_DELIMITER);
                     if (cardvalues.length < 4) {
                         Log.e(TAG, "Invalid card format: " + Arrays.toString(cardvalues));
                         continue;
@@ -83,8 +84,8 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
                     String cardName = cardvalues[0];
                     String front = cardvalues[1];
                     String back = cardvalues[2];
-                    String drawingBase64 = cardvalues[3];
-                    Bitmap drawing = decodeBase64ToBitmap(drawingBase64);
+                    Bitmap drawing = stringToBitmap(cardvalues[3]);
+                    Log.d(TAG, "Decoded bitmap for card: " + cardName);
                     Flashcard card = new Flashcard(cardName, front, back, drawing);
                     flashcards.add(card);
                 } catch (Exception e) {
@@ -119,15 +120,23 @@ public class DeckDatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
-    private String encodeBitmapToBase64(Bitmap bitmap) {
+    private String bitmapToString(Bitmap bitmap) {
+        if (bitmap == null) {
+            return "";
+        }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
-    private Bitmap decodeBase64ToBitmap(String base64Str) {
-        byte[] decodedBytes = Base64.decode(base64Str, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    private Bitmap stringToBitmap(String encodedString) {
+        try {
+            byte[] decodedBytes = Base64.decode(encodedString, Base64.DEFAULT);
+            return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+        } catch (Exception e) {
+            Log.e(TAG, "Error decoding bitmap: " + e.getMessage());
+            return null;
+        }
     }
 }

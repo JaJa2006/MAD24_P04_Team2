@@ -133,7 +133,8 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_create_deck_back"
         app:layout_constraintStart_toEndOf="@+id/tvCreateCard" />
 
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/drawingContainer"
         android:layout_width="360dp"
         android:layout_height="200dp"
         android:layout_marginTop="20dp"
@@ -145,31 +146,45 @@
         <com.example.main_activity.DrawingView
             android:id="@+id/drawingView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
 
+        <!-- Drawing and Eraser buttons -->
         <LinearLayout
-            android:id="@+id/llTools"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="8dp">
+            android:layout_gravity="top|start"
+            android:padding="8dp">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/btnDrawing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/pen_button"
-                android:contentDescription="Pen Tool"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/pen_button" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/btnEraser"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/eraser_button"
-                android:contentDescription="Eraser Tool"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/eraser_button" />
         </LinearLayout>
-    </RelativeLayout>
+    </FrameLayout>
+
+    <!-- Back button at the top right -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/back_button"
+        android:contentDescription="Back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
