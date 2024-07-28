@@ -7,12 +7,12 @@ public class Deck {
     public ArrayList<Flashcard> Cardlist;
     public int deckId;
 
-    public Deck() {
-        this.Cardlist = new ArrayList<>();
+    public Deck(String deckName, ArrayList<Flashcard> cardlist) {
+        this.deckName = deckName;
+        Cardlist = cardlist;
     }
 
-    public Deck(String deckName, ArrayList<Flashcard> Cardlist) {
-        this.deckName = deckName;
-        this.Cardlist = Cardlist;
+    public Deck() {
+        Cardlist = new ArrayList<>();
     }
 }

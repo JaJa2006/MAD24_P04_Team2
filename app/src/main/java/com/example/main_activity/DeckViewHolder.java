@@ -1,14 +1,14 @@
 package com.example.main_activity;
 
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DeckViewHolder extends RecyclerView.ViewHolder {
     TextView deckName;
-    ImageButton delete;
+    ImageView delete;
 
     public DeckViewHolder(View itemView) {
         super(itemView);
